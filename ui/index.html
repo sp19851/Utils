@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="./hudscss/hud.css.map">
+    <link rel="stylesheet" href="./hudscss/hud.css">
+    
+
+    
+    <script src="https://unpkg.com/vue@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+        integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"
+        integrity="sha256-xH4q8N0pEzrZMaRmd7gQVcTZiFei+HfRTBPJ1OGXC0k=" crossorigin="anonymous"></script>
+    <title>UI</title>
+</head>
+
+<body>
+    <div id="hud">
+        <div class="main-hud-container" v-show="hudShow">
+            <div class="stats">
+                <div class="logo">
+                    <img src="./assets/myLogo.png">
+                </div>
+                <div class="other">
+                    <div class="top">
+                        <div class="id"><i class="fa-solid fa-user"></i> <span>Id {{serverId}}</span></div>
+                        <div class="cash"><i class="fa-solid fa-wallet"></i> <span>${{cash}}</span></div>
+                        <!--<div class="ping"><i class="fa-solid fa-signal"></i> <span>0</span></div> -->
+                        </div>
+                    <!--<div class="bottom">
+                        <div class="bank"><i class="fa-solid fa-building-columns"></i> <span>0$</span></div>
+                        <div class="cash"><i class="fa-solid fa-wallet"></i> <span>0$</span></div>
+                    </div> -->
+                    <div class="bottom2">
+                        <div class="date"><i class="fa-regular fa-calendar-days"></i> <span>0</span></div>
+                        <div class="clock"><i class="fa-solid fa-clock"></i> <span>0</span></div>
+                    </div>
+                    <div class="bottom3">
+                        <div class="weather"> <span> </span></div>
+                        <!--<div class="temperature"><i class="fa-solid fa-temperature-three-quarters"></i> <span>0</span></div>  -->
+                    </div>
+                </div>
+            </div>
+    
+            <div class="voicehud">
+                <img src="./assets/img/hud/microphone.png">
+                <div class="voice">
+                    <span class="one"></span>
+                    <span class="two"></span>
+                    <span class="sec"></span>
+                </div>
+            </div>
+    
+            <div class="status">
+                <div class="map-outline"></div>
+    
+                <div class="status-wrapper">
+                    <div class="oxygen-wrapper">
+                        <div class="oxygen"><img src="./assets/img/hud/lungs.png"></div>
+                    </div>
+                    <div class="stamina-wrapper">
+                        <div class="stamina"><img src="./assets/img/hud/stamina.png"></div>
+                    </div>
+                    <div class="hunger-wrapper">
+                        <div class="hunger"><img src="./assets/img/hud/hunger.png"></div>
+                    </div>
+                    <div class="thirst-wrapper">
+                        <div class="thirst"><img src="./assets/img/hud/thirst.png"></div>
+                    </div>
+                    <div class="armour-wrapper">
+                        <div class="armour"><img src="./assets/img/hud/shield.png"></div>
+                    </div>
+                    <div class="health-wrapper">
+                        <div class="health"><img src="./assets/img/hud/heart.png"></div>
+                    </div>
+                </div>
+                <div class="status2-wrapper">
+                    <div class="stress-wrapper">
+                        <div class="stress"><img src="./assets/img/hud/stress.png"></div>
+                    </div>
+                    <div class="alcohol-wrapper">
+                        <div class="alcohol"><img src="./assets/img/hud/alcohol.png"></div>
+                    </div>
+                    <div class="drug-wrapper">
+                        <div class="drug"><img src="./assets/img/hud/drug.png"></div>
+                    </div>
+                    <div class="smoking-wrapper">
+                        <div class="smoking"><img src="./assets/img/hud/smoking.png"></div>
+                    </div>
+                </div>
+                <div class="location">
+                    <!--<img src="./assets/img/hud/gps.png"> -->
+                    <span class="location-text"></span>
+                </div>
+            </div>
+    
+            <div class="carhud" v-show="carHud">
+                <div class="speed-wrapper">
+                    <div class="speed-box" style="display: flex; flex-direction: row;">
+                        <div class="speed">096</div>  
+                        <div class="gear-unit">KMH</div>    
+                    </div>
+                    <div class="rpm">
+                        <div class="rpm-bar"></div>
+                    </div>
+                       
+                    
+                    
+                </div>
+                <div class="other-wrapper">
+                    
+                    <div class="speed-unit">KMH</div>
+                    <div class="icons">
+                        <img src="./assets/img/hud/belt.png" class="belt">
+                        <img src="./assets/img/hud/engine.png" class="engine">
+                        <img src="./assets/img/hud/cruise.png" class="cruise">
+                        <div class="fuel-bar-wrapper">
+                            <img src="./assets/img/hud/fuel.png" class="fuel">
+                            <div class="fuel-bar">
+                                <div class="fuel-bar-progress"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mileage">
+                        <div class="mileage-value">0000000000 km</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+   
+</body>
+
+<script src="./scripts/hud.js"></script>
+
+<script src="./scripts/functions.js"></script>
+
+</html>

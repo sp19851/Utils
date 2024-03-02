@@ -1,0 +1,453 @@
+@import url("https://fonts.googleapis.com/css2?family=Chivo+Mono:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Chivo Mono", sans-serif;
+  box-sizing: border-box;
+}
+
+.main-hud-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  z-index: -1;
+}
+.main-hud-container .stats {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding-top: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  gap: 10px;
+}
+.main-hud-container .stats .logo {
+  padding-right: 25px;
+  opacity: 0.5;
+}
+.main-hud-container .stats .logo img {
+  max-height: 75px;
+  max-width: 150px;
+}
+.main-hud-container .stats .other {
+  padding-left: 10px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.02) 20%, rgba(255, 255, 255, 0.4) 100%);
+  height: 60px;
+  width: 240px;
+  color: #fff;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  justify-content: center;
+  gap: 5px;
+  font-size: 14px;
+  font-family: "Poppins", sans-serif;
+}
+.main-hud-container .stats .other .top, .main-hud-container .stats .other .bottom, .main-hud-container .stats .other .bottom2, .main-hud-container .stats .other .bottom3 {
+  width: 100%;
+  display: flex;
+}
+.main-hud-container .stats .other .top .id, .main-hud-container .stats .other .top .ping, .main-hud-container .stats .other .top .cash, .main-hud-container .stats .other .top .bank, .main-hud-container .stats .other .top .date, .main-hud-container .stats .other .top .clock, .main-hud-container .stats .other .top .tempurature, .main-hud-container .stats .other .bottom .id, .main-hud-container .stats .other .bottom .ping, .main-hud-container .stats .other .bottom .cash, .main-hud-container .stats .other .bottom .bank, .main-hud-container .stats .other .bottom .date, .main-hud-container .stats .other .bottom .clock, .main-hud-container .stats .other .bottom .tempurature, .main-hud-container .stats .other .bottom2 .id, .main-hud-container .stats .other .bottom2 .ping, .main-hud-container .stats .other .bottom2 .cash, .main-hud-container .stats .other .bottom2 .bank, .main-hud-container .stats .other .bottom2 .date, .main-hud-container .stats .other .bottom2 .clock, .main-hud-container .stats .other .bottom2 .tempurature, .main-hud-container .stats .other .bottom3 .id, .main-hud-container .stats .other .bottom3 .ping, .main-hud-container .stats .other .bottom3 .cash, .main-hud-container .stats .other .bottom3 .bank, .main-hud-container .stats .other .bottom3 .date, .main-hud-container .stats .other .bottom3 .clock, .main-hud-container .stats .other .bottom3 .tempurature {
+  width: 50%;
+}
+.main-hud-container .stats .other .top .weather, .main-hud-container .stats .other .bottom .weather, .main-hud-container .stats .other .bottom2 .weather, .main-hud-container .stats .other .bottom3 .weather {
+  text-align: center;
+  width: 100%;
+}
+.main-hud-container .stats .other::before {
+  content: "";
+  height: 1px;
+  width: 200px;
+  position: absolute;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.02) 20%, rgba(255, 255, 255, 0.4) 100%);
+  top: 0;
+  right: 0;
+}
+.main-hud-container .stats .other::after {
+  content: "";
+  height: 1px;
+  width: 200px;
+  position: absolute;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.02) 20%, rgba(255, 255, 255, 0.4) 100%);
+  bottom: 0;
+  right: 0;
+}
+.main-hud-container .status {
+  position: absolute;
+  width: 350px;
+  height: 230px;
+  left: 25px;
+  bottom: 25px;
+  color: #fff;
+}
+.main-hud-container .status .map-outline {
+  width: 270px;
+  height: 180px;
+  border: 1px solid rgba(255, 255, 255, 0.2352941176);
+  box-shadow: 0 0 5px 1px rgba(255, 255, 255, 0.2352941176), 0 0 5px 1px rgba(255, 255, 255, 0.2352941176) inset;
+  position: absolute;
+  left: 5px;
+  bottom: 10px;
+}
+.main-hud-container .status .status-wrapper {
+  width: 40px;
+  height: 190px;
+  position: absolute;
+  bottom: 10px;
+  left: 15vw;
+  transition: left 0.4s, top 0.4s;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-end;
+  justify-content: end;
+}
+.main-hud-container .status .status-wrapper .health-wrapper {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #fff;
+  padding: 2px;
+  border-radius: 50%;
+  box-shadow: 0 0 5px 1px rgba(255, 255, 255, 0.4705882353), 0 0 5px 1px rgba(255, 255, 255, 0.4705882353) inset;
+}
+.main-hud-container .status .status-wrapper .health-wrapper .health {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  background-image: conic-gradient(#fff 64%, transparent 17%, transparent);
+  border-radius: 50%;
+}
+.main-hud-container .status .status-wrapper .health-wrapper .health img {
+  width: 20px;
+}
+.main-hud-container .status .status-wrapper .armour-wrapper {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #fff;
+  padding: 2px;
+  border-radius: 50%;
+  box-shadow: 0 0 5px 1px rgba(255, 255, 255, 0.4705882353), 0 0 5px 1px rgba(255, 255, 255, 0.4705882353) inset;
+}
+.main-hud-container .status .status-wrapper .armour-wrapper .armour {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  background-image: conic-gradient(#fff 64%, transparent 17%, transparent);
+  border-radius: 50%;
+}
+.main-hud-container .status .status-wrapper .armour-wrapper .armour img {
+  width: 18px;
+}
+.main-hud-container .status .status-wrapper .hunger-wrapper {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #fff;
+  padding: 2px;
+  border-radius: 50%;
+  box-shadow: 0 0 5px 1px rgba(255, 255, 255, 0.4705882353), 0 0 5px 1px rgba(255, 255, 255, 0.4705882353) inset;
+}
+.main-hud-container .status .status-wrapper .hunger-wrapper .hunger {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  background-image: conic-gradient(#fff 64%, transparent 17%, transparent);
+  border-radius: 50%;
+}
+.main-hud-container .status .status-wrapper .hunger-wrapper .hunger img {
+  width: 16px;
+}
+.main-hud-container .status .status-wrapper .thirst-wrapper {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #fff;
+  padding: 2px;
+  border-radius: 50%;
+  box-shadow: 0 0 5px 1px rgba(255, 255, 255, 0.4705882353), 0 0 5px 1px rgba(255, 255, 255, 0.4705882353) inset;
+}
+.main-hud-container .status .status-wrapper .thirst-wrapper .thirst {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  background-image: conic-gradient(#fff 64%, transparent 17%, transparent);
+  border-radius: 50%;
+}
+.main-hud-container .status .status-wrapper .thirst-wrapper .thirst img {
+  width: 16px;
+}
+.main-hud-container .status .status-wrapper .stamina-wrapper {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #fff;
+  padding: 2px;
+  border-radius: 50%;
+  box-shadow: 0 0 5px 1px rgba(255, 255, 255, 0.4705882353), 0 0 5px 1px rgba(255, 255, 255, 0.4705882353) inset;
+}
+.main-hud-container .status .status-wrapper .stamina-wrapper .stamina {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  background-image: conic-gradient(#fff 64%, transparent 17%, transparent);
+  border-radius: 50%;
+}
+.main-hud-container .status .status-wrapper .stamina-wrapper .stamina img {
+  width: 18px;
+}
+.main-hud-container .status .status-wrapper .oxygen-wrapper {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #fff;
+  padding: 2px;
+  border-radius: 50%;
+  box-shadow: 0 0 5px 1px rgba(255, 255, 255, 0.4705882353), 0 0 5px 1px rgba(255, 255, 255, 0.4705882353) inset;
+}
+.main-hud-container .status .status-wrapper .oxygen-wrapper .oxygen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  background-image: conic-gradient(#fff 64%, transparent 17%, transparent);
+  border-radius: 50%;
+}
+.main-hud-container .status .status-wrapper .oxygen-wrapper .oxygen img {
+  width: 18px;
+}
+.main-hud-container .status .status2-wrapper {
+  width: 40px;
+  height: 190px;
+  position: absolute;
+  bottom: 10px;
+  left: 18vw;
+  transition: left 0.4s, top 0.4s;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-end;
+  justify-content: end;
+}
+.main-hud-container .status .status2-wrapper .stress-wrapper {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #fff;
+  padding: 2px;
+  border-radius: 50%;
+  box-shadow: 0 0 5px 1px rgba(255, 255, 255, 0.4705882353), 0 0 5px 1px rgba(255, 255, 255, 0.4705882353) inset;
+}
+.main-hud-container .status .status2-wrapper .stress-wrapper .stress {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  background-image: conic-gradient(#fff 64%, transparent 17%, transparent);
+  border-radius: 50%;
+}
+.main-hud-container .status .status2-wrapper .stress-wrapper .stress img {
+  width: 20px;
+}
+.main-hud-container .status .status2-wrapper .alcohol-wrapper {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #fff;
+  padding: 2px;
+  border-radius: 50%;
+  box-shadow: 0 0 5px 1px rgba(255, 255, 255, 0.4705882353), 0 0 5px 1px rgba(255, 255, 255, 0.4705882353) inset;
+}
+.main-hud-container .status .status2-wrapper .alcohol-wrapper .alcohol {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  background-image: conic-gradient(#fff 64%, transparent 17%, transparent);
+  border-radius: 50%;
+}
+.main-hud-container .status .status2-wrapper .alcohol-wrapper .alcohol img {
+  width: 18px;
+}
+.main-hud-container .status .status2-wrapper .drug-wrapper {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #fff;
+  padding: 2px;
+  border-radius: 50%;
+  box-shadow: 0 0 5px 1px rgba(255, 255, 255, 0.4705882353), 0 0 5px 1px rgba(255, 255, 255, 0.4705882353) inset;
+}
+.main-hud-container .status .status2-wrapper .drug-wrapper .drug {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  background-image: conic-gradient(#fff 64%, transparent 17%, transparent);
+  border-radius: 50%;
+}
+.main-hud-container .status .status2-wrapper .drug-wrapper .drug img {
+  width: 16px;
+}
+.main-hud-container .status .status2-wrapper .smoking-wrapper {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #fff;
+  padding: 2px;
+  border-radius: 50%;
+  box-shadow: 0 0 5px 1px rgba(255, 255, 255, 0.4705882353), 0 0 5px 1px rgba(255, 255, 255, 0.4705882353) inset;
+}
+.main-hud-container .status .status2-wrapper .smoking-wrapper .smoking {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  background-image: conic-gradient(#fff 64%, transparent 17%, transparent);
+  border-radius: 50%;
+}
+.main-hud-container .status .status2-wrapper .smoking-wrapper .smoking img {
+  width: 16px;
+}
+.main-hud-container .status .location {
+  bottom: 19vh;
+  left: 0;
+  transition: left 0.4s, bottom 0.4s;
+  position: absolute;
+  display: flex;
+  gap: 5px;
+}
+.main-hud-container .status span {
+  font-family: "Poppins", sans-serif;
+}
+.main-hud-container .status img {
+  width: 25px;
+}
+.main-hud-container .carhud {
+  display: block;
+  position: absolute;
+  right: 35px;
+  /*bottom: 35px;*/
+  bottom: 65px;
+  width: 310px;
+  color: #fff;
+  transition: right 0.5s;
+}
+.main-hud-container .carhud .other-wrapper {
+  margin-left: 8px;
+}
+.main-hud-container .carhud .other-wrapper .speed-unit {
+  font-family: "Poppins", sans-serif;
+  font-size: 52px;
+  opacity: 0.4;
+  font-weight: 700;
+  height: 55px;
+  width: 120px;
+}
+.main-hud-container .carhud .other-wrapper .icons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 120px;
+  margin-top: 10px;
+}
+.main-hud-container .carhud .other-wrapper .icons img {
+  width: 22px;
+  opacity: 0.8;
+  transition: opacity 0.3s;
+}
+.main-hud-container .carhud .other-wrapper .icons .belt, .main-hud-container .carhud .other-wrapper .icons .cruise {
+  opacity: 0.3;
+}
+.main-hud-container .carhud .other-wrapper .icons .fuel-bar-wrapper {
+  height: 20px;
+  display: flex;
+  align-items: end;
+  gap: 2px;
+  position: relative;
+}
+.main-hud-container .carhud .other-wrapper .icons .fuel-bar-wrapper .fuel-bar {
+  background-color: #fff;
+  width: 5px;
+  height: 100%;
+  border-radius: 1px;
+  transition: height 0.2s;
+  opacity: 0.8;
+}
+.main-hud-container .carhud .other-wrapper .icons .fuel-bar-wrapper .fuel-bar-progress {
+  background-color: rgba(0, 0, 0, 0.5);
+  height: 10%;
+}
+.main-hud-container .carhud .other-wrapper .icons .fuel-bar-wrapper img {
+  width: 18px;
+}
+.main-hud-container .carhud .other-wrapper .mileage {
+  margin-top: 15px;
+}
+.main-hud-container .carhud .speed {
+  font-size: 100px;
+  font-weight: 600;
+  width: 180px;
+  height: 105px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+.main-hud-container .carhud .rpm {
+  width: 180px;
+  height: 5px;
+  border-right: 2px solid #fff;
+  position: relative;
+}
+.main-hud-container .carhud .rpm .rpm-bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0%;
+  height: 5px;
+  background-color: #fff;
+  /*background-color: green;*/
+  transition: width 0.2s;
+}
+.main-hud-container .voicehud {
+  position: absolute;
+  /*top: 35px;
+  left: 35px;*/
+  top: 45px;
+  right: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  transition: opacity 0.3s;
+}
+.main-hud-container .voicehud .voice {
+  display: flex;
+  gap: 3px;
+}
+.main-hud-container .voicehud .voice span {
+  border-radius: 5px;
+  width: 13px;
+  height: 4px;
+  border: 1px solid #fff;
+  background-color: #fff;
+  display: block;
+}
+.main-hud-container .voicehud .voice span:last-child {
+  background: none;
+}
+.main-hud-container .voicehud img {
+  width: 30px;
+}/*# sourceMappingURL=hud.css.map */

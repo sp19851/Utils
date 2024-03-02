@@ -1,0 +1,1919 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./scss/index.css">
+    <link rel="stylesheet" href="./scss/index.css.map">
+    <link rel="stylesheet" href="./hudscss/hud.css.map">
+    <link rel="stylesheet" href="./hudscss/hud.css">
+    <link rel="stylesheet" href="./menucss/menu.css">
+
+    
+    <script src="https://unpkg.com/vue@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+        integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"
+        integrity="sha256-xH4q8N0pEzrZMaRmd7gQVcTZiFei+HfRTBPJ1OGXC0k=" crossorigin="anonymous"></script>
+    <title>UI</title>
+</head>
+
+<body>
+    <div id="hud">
+        <div class="main-hud-container" v-show="hudShow">
+            <div class="stats">
+                <div class="logo">
+                    <img src="./assets/myLogo.png">
+                </div>
+                <div class="other">
+                    <div class="top">
+                        <div class="id"><i class="fa-solid fa-user"></i> <span>Id {{serverId}}</span></div>
+                        <div class="cash"><i class="fa-solid fa-wallet"></i> <span>${{cash}}</span></div>
+                        <!--<div class="ping"><i class="fa-solid fa-signal"></i> <span>0</span></div> -->
+                        </div>
+                    <!--<div class="bottom">
+                        <div class="bank"><i class="fa-solid fa-building-columns"></i> <span>0$</span></div>
+                        <div class="cash"><i class="fa-solid fa-wallet"></i> <span>0$</span></div>
+                    </div> -->
+                    <div class="bottom2">
+                        <div class="date"><i class="fa-regular fa-calendar-days"></i> <span>0</span></div>
+                        <div class="clock"><i class="fa-solid fa-clock"></i> <span>0</span></div>
+                    </div>
+                    <div class="bottom3">
+                        <div class="weather"> <span> </span></div>
+                        <!--<div class="temperature"><i class="fa-solid fa-temperature-three-quarters"></i> <span>0</span></div>  -->
+                    </div>
+                </div>
+            </div>
+    
+            <div class="voicehud">
+                <img src="./assets/img/hud/microphone.png">
+                <div class="voice">
+                    <span class="one"></span>
+                    <span class="two"></span>
+                    <span class="sec"></span>
+                </div>
+            </div>
+    
+            <div class="status">
+                <div class="map-outline"></div>
+    
+                <div class="status-wrapper">
+                    <div class="oxygen-wrapper">
+                        <div class="oxygen"><img src="./assets/img/hud/lungs.png"></div>
+                    </div>
+                    <div class="stamina-wrapper">
+                        <div class="stamina"><img src="./assets/img/hud/stamina.png"></div>
+                    </div>
+                    <div class="hunger-wrapper">
+                        <div class="hunger"><img src="./assets/img/hud/hunger.png"></div>
+                    </div>
+                    <div class="thirst-wrapper">
+                        <div class="thirst"><img src="./assets/img/hud/thirst.png"></div>
+                    </div>
+                    <div class="armour-wrapper">
+                        <div class="armour"><img src="./assets/img/hud/shield.png"></div>
+                    </div>
+                    <div class="health-wrapper">
+                        <div class="health"><img src="./assets/img/hud/heart.png"></div>
+                    </div>
+                </div>
+                <div class="status2-wrapper">
+                    <div class="stress-wrapper">
+                        <div class="stress"><img src="./assets/img/hud/stress.png"></div>
+                    </div>
+                    <div class="alcohol-wrapper">
+                        <div class="alcohol"><img src="./assets/img/hud/alcohol.png"></div>
+                    </div>
+                    <div class="drug-wrapper">
+                        <div class="drug"><img src="./assets/img/hud/drug.png"></div>
+                    </div>
+                    <div class="smoking-wrapper">
+                        <div class="smoking"><img src="./assets/img/hud/smoking.png"></div>
+                    </div>
+                </div>
+                <div class="location">
+                    <img src="./assets/img/hud/gps.png">
+                    <span class="location-text">Vinewood Boulvard</span>
+                </div>
+            </div>
+    
+            <div class="carhud" v-show="carHud">
+                <div class="speed-wrapper">
+                    <div class="speed-box" style="display: flex; flex-direction: row;">
+                        <div class="speed">096</div>  
+                        <div class="gear-unit">KMH</div>    
+                    </div>
+                    <div class="rpm">
+                        <div class="rpm-bar"></div>
+                    </div>
+                       
+                    
+                    
+                </div>
+                <div class="other-wrapper">
+                    
+                    <div class="speed-unit">KMH</div>
+                    <div class="icons">
+                        <img src="./assets/img/hud/belt.png" class="belt">
+                        <img src="./assets/img/hud/engine.png" class="engine">
+                        <img src="./assets/img/hud/cruise.png" class="cruise">
+                        <div class="fuel-bar-wrapper">
+                            <img src="./assets/img/hud/fuel.png" class="fuel">
+                            <div class="fuel-bar">
+                                <div class="fuel-bar-progress"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mileage">
+                        <div class="mileage-value">0000000000 km</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="charaterSelect">
+        <div class="charater-select-maincontainer" v-show="charaterSelectShow">
+            <div class=charater-select-info-container>
+                <div class="charater-select-info" v-for="info in Info" :id="info.CitizenId"
+                    :class="{itemSelected: CheckSelecting(info)}" @click="SelectItem(info)">
+                    <div v-if="HasData(info)">
+                        <div class="charater-select-info__item">
+                            CitizenId:{{info.CitizenId}}
+                        </div>
+                        <div class="charater-select-info-item ">
+                            Имя: {{info.Firstname}}
+                        </div>
+                        <div class="charater-select-info-item">
+                            Фамилия: {{info.Lastname}}
+                        </div>
+                        <div class="charater-select-info-item">
+                            Дата рождения: {{info.DateOfBirth}}
+                        </div>
+                        <div class="charater-select-info-item">
+                            Место рождения: {{info.PlaceOfBirth}}
+                        </div>
+                        <div class="charater-select-info-item">
+                            Пол: {{info.Gender}}
+                        </div>
+                        <div class="charater-select-info-item">
+                            Работа: {{info.JobLabel}}
+                        </div>
+                        <div class="charater-select-info-item">
+                            Банда: {{info.GangLabel}}
+                        </div>
+                        <div class="charater-select-info-item">
+                            Деньги: {{info.Money}}
+                        </div>
+                        <div class="charater-select-info-item">
+                            Банк: {{info.Bank}}
+                        </div>
+                        <div class="charater-select-info-item">
+                            Коины: {{info.Coin}}
+                        </div>
+                    </div>
+                    <div v-else>
+                        <div class="charater-select-info-emptyitem">
+                            ПУСТОЙ СЛОТ
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="charater-select-btns-container">
+                <div class="charater-select-btns-item" style="background-color: green;" v-show="btn_Select"
+                    @click="Select()">Выбрать</div>
+                <div class="charater-select-btns-item" style="background-color: orange;" v-show="btn_New"
+                    @click="Create()">Создать</div>
+                <div class="charater-select-btns-item" style="background-color: red;" v-show="btn_Delete">Удалить</div>
+            </div>
+        </div>
+    </div>
+    <div id="characterCreate">
+        <div class="characterCreate-main-container" v-show="characterCreateShow">
+            <div class="characterCreate-context">
+                <div class="top-bnts">
+                    <div class="top-btns-btn" @click="SelectWindow('Parents')" v-show="CanShow('Parents')">
+                        <i class="fa-solid fa-people-arrows fa-lg btn-icon "></i>
+                    </div>
+                    <div class="top-btns-btn" @click="SelectWindow('Face')" v-show="CanShow('Face')">
+                        <i class="fa-solid fa-face-smile-wink fa-lg btn-icon"></i>
+                    </div>
+                    <div class="top-btns-btn" @click="SelectWindow('Clothes')" v-show="CanShow('Clothes')">
+                        <i class="fa-solid fa-shirt fa-lg btn-icon"></i>
+                    </div>
+                    <div class="top-btns-btn" @click="SelectWindow('Hair')" v-show="CanShow('Hair')">
+                        <i class="fa-solid fa-scissors fa-lg btn-icon"></i>
+                    </div>
+                    <div class="top-btns-btn" @click="SelectWindow('Makeup')" v-show="CanShow('Makeup')">
+                        <i class="fa-solid fa-paintbrush fa-lg btn-icon"></i>
+                    </div>
+                </div>
+                <div class="top-title">
+                    <div class="top-title__text">
+                        {{title}}
+                    </div>
+                    <div class="top-title__text2">
+                        создание персонажа
+
+                    </div>
+                </div>
+                <div class="control-btns">
+                    <div class="top-title__text2">
+                        управление
+                    </div>
+                    <div class="imgs">
+                        <div class="img_item">
+                            <img src="./assets/img/vertical.png" width="64" height="64" alt="">
+                        </div>
+                        <div class="img_item">
+                            <img src="./assets/img/gorizont.png" width="64" height="64" alt="">
+                        </div>
+                        <div class="img_item">
+                            <img src="./assets/img/middle_button.png" width="64" height="64" alt="">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="menu-container" v-show="containerShow">
+                    <div class="parents-container" v-show="GetWindow('Parents')">
+                        <div class="menu-container__title">Пол</div>
+                        <div class="parents-container__inputRange">
+                            <input type="range" min="0" max="1" :value="0" @change="SetGender($event.target.value)">
+                        </div>
+                        <div class="menu-container__title">Родители</div>
+                        <div class="parents">
+                            <div class="parent">
+                                <div class="parent__title">Мать</div>
+                                <div class="parent__img">
+                                    <img :src="GetMamImg()" alt="">
+                                </div>
+                                <div class="parent-btns">
+                                    <div class="parent-btns__left" @click="GetPrevMam()">
+                                        <img src="./assets/img/right-chevron.png" alt=""
+                                            style="transform: rotateY(180deg) scale(0.6); ">
+                                    </div>
+                                    <div class="parent-btns__center">
+                                        {{mamImgValue}}
+                                    </div>
+                                    <div class="parent-btns__rigth" @click="GetNextMam()">
+                                        <img src="./assets/img/right-chevron.png" alt="" style="transform: scale(0.6);">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="parent">
+                                <div class="parent__title">Отец</div>
+                                <div class="parent__img">
+                                    <img :src="GetDadImg()" alt="">
+                                </div>
+                                <div class="parent-btns">
+                                    <div class="parent-btns__left" @click="GetPrevDad()">
+                                        <img src="./assets/img/right-chevron.png" alt=""
+                                            style="transform: rotateY(180deg) scale(0.6); ">
+                                    </div>
+                                    <div class="parent-btns__center">
+                                        {{dadImgValue}}
+                                    </div>
+                                    <div class="parent-btns__rigth" @click="GetNextDad()">
+                                        <img src="./assets/img/right-chevron.png" alt="" style="transform: scale(0.6);">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <hr />
+                        <div class="menu-container__title">Внешность</div>
+                        <div class="parents-container__inputRange">
+                            <input type="range" min="1" max="10" :value="5" @change="SetShapeMix($event.target.value)">
+                        </div>
+                        <hr />
+                        <div class="menu-container__title">Кожа</div>
+                        <div class="parents-container__inputRange">
+                            <input type="range" min="1" max="10" :value="5" @change="SetSkinMix($event.target.value)">
+                        </div>
+
+                    </div>
+
+                    <div class="face-container" v-show="GetWindow('Face')">
+                        <div class="menu-container__title">Брови</div>
+                        <div class="face-container-item">
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Высота</div>
+                                    <div class="face-item-title__value">{{PedFaceFeatures.EyeBrownHigh}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="-10" max="10" :value="PedFaceFeatures.EyeBrownHigh"
+                                        @change="SetPedFaceFeatures('EyeBrownHigh', $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Глубина</div>
+                                    <div class="face-item-title__value">{{PedFaceFeatures.EyeBrownForward}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="-10" max="10" :value="PedFaceFeatures.EyeBrownForward"
+                                        @change="SetPedFaceFeatures('EyeBrownForward', $event.target.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="menu-container__title">Нос</div>
+                        <div class="face-container-item">
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Ширина</div>
+                                    <div class="face-item-title__value">{{PedFaceFeatures.NoseWidth}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="-10" max="10" :value="PedFaceFeatures.NoseWidth"
+                                        @change="SetPedFaceFeatures('NoseWidth', $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Высота вершины</div>
+                                    <div class="face-item-title__value">{{PedFaceFeatures.NosePeakHigh}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="-10" max="10" :value="PedFaceFeatures.NosePeakHigh"
+                                        @change="SetPedFaceFeatures('NosePeakHigh', $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Длина вершины</div>
+                                    <div class="face-item-title__value">{{PedFaceFeatures.NosePeakSize}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="-10" max="10" :value="PedFaceFeatures.NosePeakSize"
+                                        @change="SetPedFaceFeatures('NosePeakSize', $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Высота кости</div>
+                                    <div class="face-item-title__value">{{PedFaceFeatures.NoseBoneHigh}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="-10" max="10" :value="PedFaceFeatures.NoseBoneHigh"
+                                        @change="SetPedFaceFeatures('NoseBoneHigh', $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Высота вершины</div>
+                                    <div class="face-item-title__value">{{PedFaceFeatures.NosePeakLowering}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="-10" max="10" :value="PedFaceFeatures.NosePeakLowering"
+                                        @change="SetPedFaceFeatures('NosePeakLowering', $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Поворот кости</div>
+                                    <div class="face-item-title__value">{{PedFaceFeatures.NoseBoneTwist}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="-10" max="10" :value="PedFaceFeatures.NoseBoneTwist"
+                                        @change="SetPedFaceFeatures('NoseBoneTwist', $event.target.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="menu-container__title">Скулы</div>
+                        <div class="face-container-item">
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Ширина</div>
+                                    <div class="face-item-title__value">{{PedFaceFeatures.CheeksBoneWidth}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="-10" max="10" :value="PedFaceFeatures.CheeksBoneWidth"
+                                        @change="SetPedFaceFeatures('CheeksBoneWidth', $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Высота</div>
+                                    <div class="face-item-title__value">{{PedFaceFeatures.CeeksBoneHigh}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="-10" max="10" :value="PedFaceFeatures.CeeksBoneHigh"
+                                        @change="SetPedFaceFeatures('CeeksBoneHigh', $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="face-item" style="width: 85%;">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Щеки</div>
+                                    <div class="face-item-title__value">{{PedFaceFeatures.CheeksWidth}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input style="width: 90%;" type="range" min="-10" max="10"
+                                        :value="PedFaceFeatures.CheeksWidth"
+                                        @change="SetPedFaceFeatures('CheeksWidth', $event.target.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="menu-container__title">Губы</div>
+                        <div class="face-container-item">
+                            <div class="face-item" style="width: 90%;">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Толщина</div>
+                                    <div class="face-item-title__value">{{PedFaceFeatures.LipsThickness}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input style="width: 90%;" type="range" min="-10" max="10"
+                                        :value="PedFaceFeatures.LipsThickness"
+                                        @change="SetPedFaceFeatures('LipsThickness', $event.target.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="menu-container__title">Челюсть</div>
+                        <div class="face-container-item">
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Ширина кости</div>
+                                    <div class="face-item-title__value">{{PedFaceFeatures.JawBoneWidth}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="-10" max="10" :value="PedFaceFeatures.JawBoneWidth"
+                                        @change="SetPedFaceFeatures('JawBoneWidth', $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Длина кости</div>
+                                    <div class="face-item-title__value">{{PedFaceFeatures.JawBoneBackSize}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="-10" max="10" :value="PedFaceFeatures.JawBoneBackSize"
+                                        @change="SetPedFaceFeatures('JawBoneBackSize', $event.target.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="menu-container__title">Подбородок</div>
+                        <div class="face-container-item">
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Высота</div>
+                                    <div class="face-item-title__value">{{PedFaceFeatures.ChinBoneLowering}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="-10" max="10" :value="PedFaceFeatures.ChinBoneLowering"
+                                        @change="SetPedFaceFeatures('ChinBoneLowering', $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Длина кости</div>
+                                    <div class="face-item-title__value">{{PedFaceFeatures.ChinBoneLenght}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="-10" max="10" :value="PedFaceFeatures.ChinBoneLenght"
+                                        @change="SetPedFaceFeatures('ChinBoneLenght', $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Ширина</div>
+                                    <div class="face-item-title__value">{{PedFaceFeatures.ChinBoneSize}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="-10" max="10" :value="PedFaceFeatures.ChinBoneSize"
+                                        @change="SetPedFaceFeatures('ChinBoneSize', $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Ямочка</div>
+                                    <div class="face-item-title__value">{{PedFaceFeatures.ChinHole}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="-10" max="10" :value="PedFaceFeatures.ChinHole"
+                                        @change="SetPedFaceFeatures('ChinHole', $event.target.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="menu-container__title">Глаза</div>
+                        <div class="face-container-item">
+                            <div class="face-item" style="width: 90%;">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Цвет</div>
+
+                                </div>
+                                <div class="color-select" v-show="IsSetColor()">
+                                    <div class="color-select-item color-select-item__green"
+                                        :class="{colorSelectItemSelected: CheckSelecting('green')}"
+                                        @click="SetPedEarColor('green')"></div>
+                                    <div class="color-select-item color-select-item__emerald"
+                                        :class="{colorSelectItemSelected: CheckSelecting('emerald')}"
+                                        @click="SetPedEarColor('emerald')"></div>
+
+                                    <div class="color-select-item color-select-item__lightblue"
+                                        :class="{colorSelectItemSelected: CheckSelecting('lightblue')}"
+                                        @click="SetPedEarColor('lightblue')"></div>
+                                    <div class="color-select-item color-select-item__oceanblue"
+                                        :class="{colorSelectItemSelected: CheckSelecting('oceanblue')}"
+                                        @click="SetPedEarColor('oceanblue')"></div>
+                                    <div class="color-select-item color-select-item__lightbrown"
+                                        :class="{colorSelectItemSelected: CheckSelecting('lightbrown')}"
+                                        @click="SetPedEarColor('lightbrown')"></div>
+                                    <div class="color-select-item color-select-item__darkbrown"
+                                        :class="{colorSelectItemSelected: CheckSelecting('darkbrown')}"
+                                        @click="SetPedEarColor('darkbrown')"></div>
+                                    <div class="color-select-item color-select-item__darkgray"
+                                        :class="{colorSelectItemSelected: CheckSelecting('darkgray')}"
+                                        @click="SetPedEarColor('darkgray')"></div>
+                                    <div class="color-select-item color-select-item__lightgray"
+                                        :class="{colorSelectItemSelected: CheckSelecting('lightgray')}"
+                                        @click="SetPedEarColor('lightgray')"></div>
+
+
+                                    <div class="color-select-item color-select-item__black"
+                                        :class="{colorSelectItemSelected: CheckSelecting('black')}"
+                                        @click="SetPedEarColor('black')"></div>
+
+
+
+                                    <!---<div class="face-item-title__value">{{EarColor}}</div>  
+                                    <div class="face-container__inputRange"> 
+                                        <input type="range" min="0" max="31" :value="EarColor" @change="SetPedEarColor2($event.target.value)">
+                                    </div> -->
+                                </div>
+
+                            </div>
+                            <div class="face-item" style="width: 90%;">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Разрез глаз</div>
+                                    <div class="face-item-title__value">{{PedFaceFeatures.EyesOpening}}</div>
+                                </div>
+
+                                <div class="face-container__inputRange">
+                                    <input style="width: 90%;" type="range" min="-10" max="10"
+                                        :value="PedFaceFeatures.EyesOpening"
+                                        @change="SetPedFaceFeatures('EyesOpening', $event.target.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="menu-container__title">Изъяны кожи</div>
+                        <div class="face-container-item">
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Тип</div>
+                                    <div class="face-item-title__value">{{Blemishes.Index}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="0" :max=GetPedHeadOverlayStyleMax('Blemishes')
+                                        :value="Blemishes.Index"
+                                        @change="SetPedHeadOverlayStyle('Blemishes',  $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Степень</div>
+                                    <div class="face-item-title__value">{{Blemishes.Opacity}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="0" max=10 :value="Blemishes.Opacity"
+                                        @change="SetPedHeadOverlayOpacity('Blemishes', $event.target.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="menu-container__title">Пятна кожи</div>
+                        <div class="face-container-item">
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Тип</div>
+                                    <div class="face-item-title__value">{{Complexion.Index}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="0" :max=GetPedHeadOverlayStyleMax('Complexion')
+                                        :value="Complexion.Index"
+                                        @change="SetPedHeadOverlayStyle('Complexion', $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Степень</div>
+                                    <div class="face-item-title__value">{{Complexion.Opacity}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="0" max=10 :value="Complexion.Opacity"
+                                        @change="SetPedHeadOverlayOpacity('Complexion', $event.target.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="menu-container__title">Грубость кожи</div>
+                        <div class="face-container-item">
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Тип</div>
+                                    <div class="face-item-title__value">{{SunDamage.Index}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="0" :max=GetPedHeadOverlayStyleMax('SunDamage')
+                                        :value="SunDamage.Index"
+                                        @change="SetPedHeadOverlayStyle('SunDamage', $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Степень</div>
+                                    <div class="face-item-title__value">{{SunDamage.Opacity}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="0" max=10 :value="SunDamage.Opacity"
+                                        @change="SetPedHeadOverlayOpacity('SunDamage', $event.target.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="menu-container__title">Родинки</div>
+                        <div class="face-container-item">
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Тип</div>
+                                    <div class="face-item-title__value">{{MoleAndFreckles.Index}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="0" :max=GetPedHeadOverlayStyleMax('MoleAndFreckles')
+                                        :value="MoleAndFreckles.Index"
+                                        @change="SetPedHeadOverlayStyle('MoleAndFreckles', $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Степень</div>
+                                    <div class="face-item-title__value">{{MoleAndFreckles.Opacity}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="0" max=10 :value="MoleAndFreckles.Opacity"
+                                        @change="SetPedHeadOverlayOpacity('MoleAndFreckles', $event.target.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="menu-container__title">Старение</div>
+                        <div class="face-container-item">
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Тип</div>
+                                    <div class="face-item-title__value">{{Ageing.Index}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="0" :max=GetPedHeadOverlayStyleMax('Ageing')
+                                        :value="Ageing.Index"
+                                        @change="SetPedHeadOverlayStyle('Ageing', $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Степень</div>
+                                    <div class="face-item-title__value">{{Ageing.Opacity}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="0" max="10" :value="Ageing.Opacity"
+                                        @change="SetPedHeadOverlayOpacity('Ageing', $event.target.value)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clothes-container" v-show="GetWindow('Clothes')">
+                        <div class="menu-container__title">Футболка</div>
+                        <div class="clothes-container-item">
+                            <div class="clothes-item">
+                                <div class="clothes-item-title">
+                                    <div class="clothes-item-title__label">Элемент</div>
+                                    <div class="clothes-item-title__value">{{Components[8].Drawable}}</div>
+                                </div>
+                                <div class="clothes-container__inputRange">
+                                    <input type="range" min="0" :max="GetMaxDrawableValue(8)"
+                                        :value="Components[8].Drawable"
+                                        @change="SetDrawableValue(8, $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="clothes-item">
+                                <div class="clothes-item-title">
+                                    <div class="clothes-item-title__label">Текстура</div>
+                                    <div class="clothes-item-title__value">{{Components[8].Texture}}</div>
+                                </div>
+                                <div class="clothes-container__inputRange">
+                                    <input type="range" min="0" :max="GetMaxTexturaValue(8)"
+                                        :value="Components[8].Texture"
+                                        @change="SetTexturaValue(8, Components[8].Drawable, $event.target.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="menu-container__title">Куртка</div>
+                        <div class="clothes-container-item">
+                            <div class="clothes-item">
+                                <div class="clothes-item-title">
+                                    <div class="clothes-item-title__label">Элемент</div>
+                                    <div class="clothes-item-title__value">{{Components[11].Drawable}}</div>
+                                </div>
+                                <div class="clothes-container__inputRange">
+                                    <input type="range" min="0" :max="GetMaxDrawableValue(11)"
+                                        :value="Components[11].Drawable"
+                                        @change="SetDrawableValue(11, $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="clothes-item">
+                                <div class="clothes-item-title">
+                                    <div class="clothes-item-title__label">Текстура</div>
+                                    <div class="clothes-item-title__value">{{Components[11].Texture}}</div>
+                                </div>
+                                <div class="clothes-container__inputRange">
+                                    <input type="range" min="0" :max="GetMaxTexturaValue(11)"
+                                        :value="Components[11].Texture"
+                                        @change="SetTexturaValue(11, Components[11].Drawable, $event.target.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="menu-container__title">Руки</div>
+                        <div class="clothes-container-item">
+                            <div class="clothes-item">
+                                <div class="clothes-item-title">
+                                    <div class="clothes-item-title__label">Элемент</div>
+                                    <div class="clothes-item-title__value">{{Components[3].Drawable}}</div>
+                                </div>
+                                <div class="clothes-container__inputRange">
+                                    <input type="range" min="0" :max="GetMaxDrawableValue(3)"
+                                        :value="Components[3].Drawable"
+                                        @change="SetDrawableValue(3, $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="clothes-item">
+                                <div class="clothes-item-title">
+                                    <div class="clothes-item-title__label">Текстура</div>
+                                    <div class="clothes-item-title__value">{{Components[3].Texture}}</div>
+                                </div>
+                                <div class="clothes-container__inputRange">
+                                    <input type="range" min="0" :max="GetMaxTexturaValue(3)"
+                                        :value="Components[3].Texture"
+                                        @change="SetTexturaValue(3, Components[3].Drawable, $event.target.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="menu-container__title">Штаны</div>
+                        <div class="clothes-container-item">
+                            <div class="clothes-item">
+                                <div class="clothes-item-title">
+                                    <div class="clothes-item-title__label">Элемент</div>
+                                    <div class="clothes-item-title__value">{{Components[4].Drawable}}</div>
+                                </div>
+                                <div class="clothes-container__inputRange">
+                                    <input type="range" min="0" :max="GetMaxDrawableValue(4)"
+                                        :value="Components[4].Drawable"
+                                        @change="SetDrawableValue(4, $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="clothes-item">
+                                <div class="clothes-item-title">
+                                    <div class="clothes-item-title__label">Текстура</div>
+                                    <div class="clothes-item-title__value">{{Components[4].Texture}}</div>
+                                </div>
+                                <div class="clothes-container__inputRange">
+                                    <input type="range" min="0" :max="GetMaxTexturaValue(4)"
+                                        :value="Components[4].Texture"
+                                        @change="SetTexturaValue(4, Components[4].Drawable, $event.target.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="menu-container__title">Обувь</div>
+                        <div class="clothes-container-item">
+                            <div class="clothes-item">
+                                <div class="clothes-item-title">
+                                    <div class="clothes-item-title__label">Элемент</div>
+                                    <div class="clothes-item-title__value">{{Components[6].Drawable}}</div>
+                                </div>
+                                <div class="clothes-container__inputRange">
+                                    <input type="range" min="0" :max="GetMaxDrawableValue(6)"
+                                        :value="Components[6].Drawable"
+                                        @change="SetDrawableValue(6, $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="clothes-item">
+                                <div class="clothes-item-title">
+                                    <div class="clothes-item-title__label">Текстура</div>
+                                    <div class="clothes-item-title__value">{{Components[6].Texture}}</div>
+                                </div>
+                                <div class="clothes-container__inputRange">
+                                    <input type="range" min="0" :max="GetMaxTexturaValue(6)"
+                                        :value="Components[6].Texture"
+                                        @change="SetTexturaValue(6, Components[6].Drawable, $event.target.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="menu-container__title">Броня</div>
+                        <div class="clothes-container-item">
+                            <div class="clothes-item">
+                                <div class="clothes-item-title">
+                                    <div class="clothes-item-title__label">Элемент</div>
+                                    <div class="clothes-item-title__value">{{Components[9].Drawable}}</div>
+                                </div>
+                                <div class="clothes-container__inputRange">
+                                    <input type="range" min="0" :max="GetMaxDrawableValue(9)"
+                                        :value="Components[9].Drawable"
+                                        @change="SetDrawableValue(9, $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="clothes-item">
+                                <div class="clothes-item-title">
+                                    <div class="clothes-item-title__label">Текстура</div>
+                                    <div class="clothes-item-title__value">{{Components[9].Texture}}</div>
+                                </div>
+                                <div class="clothes-container__inputRange">
+                                    <input type="range" min="0" :max="GetMaxTexturaValue(9)"
+                                        :value="Components[9].Texture"
+                                        @change="SetTexturaValue(9, Components[9].Drawable, $event.target.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="menu-container__title">Маска</div>
+                        <div class="clothes-container-item">
+                            <div class="clothes-item">
+                                <div class="clothes-item-title">
+                                    <div class="clothes-item-title__label">Элемент</div>
+                                    <div class="clothes-item-title__value">{{Components[1].Drawable}}</div>
+                                </div>
+                                <div class="clothes-container__inputRange">
+                                    <input type="range" min="0" :max="GetMaxDrawableValue(1)"
+                                        :value="Components[1].Drawable"
+                                        @change="SetDrawableValue(1, $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="clothes-item">
+                                <div class="clothes-item-title">
+                                    <div class="clothes-item-title__label">Текстура</div>
+                                    <div class="clothes-item-title__value">{{Components[1].Texture}}</div>
+                                </div>
+                                <div class="clothes-container__inputRange">
+                                    <input type="range" min="0" :max="GetMaxTexturaValue(1)"
+                                        :value="Components[1].Texture"
+                                        @change="SetTexturaValue(1, Components[1].Drawable, $event.target.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="menu-container__title">Бейдж</div>
+                        <div class="clothes-container-item">
+                            <div class="clothes-item">
+                                <div class="clothes-item-title">
+                                    <div class="clothes-item-title__label">Элемент</div>
+                                    <div class="clothes-item-title__value">{{Components[10].Drawable}}</div>
+                                </div>
+                                <div class="clothes-container__inputRange">
+                                    <input type="range" min="0" :max="GetMaxDrawableValue(10)"
+                                        :value="Components[10].Drawable"
+                                        @change="SetDrawableValue(10, $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="clothes-item">
+                                <div class="clothes-item-title">
+                                    <div class="clothes-item-title__label">Текстура</div>
+                                    <div class="clothes-item-title__value">{{Components[10].Texture}}</div>
+                                </div>
+                                <div class="clothes-container__inputRange">
+                                    <input type="range" min="0" :max="GetMaxTexturaValue(10)"
+                                        :value="Components[10].Texture"
+                                        @change="SetTexturaValue(10, Components[10].Drawable, $event.target.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="menu-container__title">Аксесуары</div>
+                        <div class="clothes-container-item">
+                            <div class="clothes-item">
+                                <div class="clothes-item-title">
+                                    <div class="clothes-item-title__label">Элемент</div>
+                                    <div class="clothes-item-title__value">{{Components[7].Drawable}}</div>
+                                </div>
+                                <div class="clothes-container__inputRange">
+                                    <input type="range" min="0" :max="GetMaxDrawableValue(7)"
+                                        :value="Components[7].Drawable"
+                                        @change="SetDrawableValue(7, $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="clothes-item">
+                                <div class="clothes-item-title">
+                                    <div class="clothes-item-title__label">Текстура</div>
+                                    <div class="clothes-item-title__value">{{Components[7].Texture}}</div>
+                                </div>
+                                <div class="clothes-container__inputRange">
+                                    <input type="range" min="0" :max="GetMaxTexturaValue(7)"
+                                        :value="Components[7].Texture"
+                                        @change="SetTexturaValue(7, Components[7].Drawable, $event.target.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="menu-container__title">Парашут</div>
+                        <div class="clothes-container-item">
+                            <div class="clothes-item">
+                                <div class="clothes-item-title">
+                                    <div class="clothes-item-title__label">Элемент</div>
+                                    <div class="clothes-item-title__value">{{Components[5].Drawable}}</div>
+                                </div>
+                                <div class="clothes-container__inputRange">
+                                    <input type="range" min="0" :max="GetMaxDrawableValue(5)"
+                                        :value="Components[5].Drawable"
+                                        @change="SetDrawableValue(5, $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="clothes-item">
+                                <div class="clothes-item-title">
+                                    <div class="clothes-item-title__label">Текстура</div>
+                                    <div class="clothes-item-title__value">{{Components[5].Texture}}</div>
+                                </div>
+                                <div class="clothes-container__inputRange">
+                                    <input type="range" min="0" :max="GetMaxTexturaValue(5)"
+                                        :value="Components[5].Texture"
+                                        @change="SetTexturaValue(5, Components[5].Drawable, $event.target.value)">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Пропы-->
+                        <hr>
+                        <div class="menu-container__title">Шляпа</div>
+                        <div class="clothes-container-item">
+                            <div class="clothes-item">
+                                <div class="clothes-item-title">
+                                    <div class="clothes-item-title__label">Элемент</div>
+                                    <div class="clothes-item-title__value">{{Props[0].Drawable}}</div>
+                                </div>
+                                <div class="clothes-container__inputRange">
+                                    <input type="range" min="-1" :max="GetMaxPropDrawableValue(0)"
+                                        :value="Props[0].Drawable"
+                                        @change="SetDrawablePropValue(0, $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="clothes-item">
+                                <div class="clothes-item-title">
+                                    <div class="clothes-item-title__label">Текстура</div>
+                                    <div class="clothes-item-title__value">{{Props[0].Texture}}</div>
+                                </div>
+                                <div class="clothes-container__inputRange">
+                                    <input type="range" min="0" :max="GetMaxPropTexturaValue(0)"
+                                        :value="Props[0].Texture"
+                                        @change="SetTexturaPropValue(0, Props[0].Drawable, $event.target.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="menu-container__title">Очки</div>
+                        <div class="clothes-container-item">
+                            <div class="clothes-item">
+                                <div class="clothes-item-title">
+                                    <div class="clothes-item-title__label">Элемент</div>
+                                    <div class="clothes-item-title__value">{{Props[1].Drawable}}</div>
+                                </div>
+                                <div class="clothes-container__inputRange">
+                                    <input type="range" min="-1" :max="GetMaxPropDrawableValue(1)"
+                                        :value="Props[1].Drawable"
+                                        @change="SetDrawablePropValue(1, $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="clothes-item">
+                                <div class="clothes-item-title">
+                                    <div class="clothes-item-title__label">Текстура</div>
+                                    <div class="clothes-item-title__value">{{Props[1].Texture}}</div>
+                                </div>
+                                <div class="clothes-container__inputRange">
+                                    <input type="range" min="0" :max="GetMaxPropTexturaValue(1)"
+                                        :value="Props[1].Texture"
+                                        @change="SetTexturaPropValue(1, Props[1].Drawable, $event.target.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="menu-container__title">Ухо</div>
+                        <div class="clothes-container-item">
+                            <div class="clothes-item">
+                                <div class="clothes-item-title">
+                                    <div class="clothes-item-title__label">Элемент</div>
+                                    <div class="clothes-item-title__value">{{Props[2].Drawable}}</div>
+                                </div>
+                                <div class="clothes-container__inputRange">
+                                    <input type="range" min="-1" :max="GetMaxPropDrawableValue(2)"
+                                        :value="Props[2].Drawable"
+                                        @change="SetDrawablePropValue(2, $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="clothes-item">
+                                <div class="clothes-item-title">
+                                    <div class="clothes-item-title__label">Текстура</div>
+                                    <div class="clothes-item-title__value">{{Props[2].Texture}}</div>
+                                </div>
+                                <div class="clothes-container__inputRange">
+                                    <input type="range" min="0" :max="GetMaxPropTexturaValue(2)"
+                                        :value="Props[2].Texture"
+                                        @change="SetTexturaPropValue(2, Props[2].Drawable, $event.target.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="menu-container__title">Часы</div>
+                        <div class="clothes-container-item">
+                            <div class="clothes-item">
+                                <div class="clothes-item-title">
+                                    <div class="clothes-item-title__label">Элемент</div>
+                                    <div class="clothes-item-title__value">{{Props[6].Drawable}}</div>
+                                </div>
+                                <div class="clothes-container__inputRange">
+                                    <input type="range" min="-1" :max="GetMaxPropDrawableValue(6)"
+                                        :value="Props[6].Drawable"
+                                        @change="SetDrawablePropValue(6, $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="clothes-item">
+                                <div class="clothes-item-title">
+                                    <div class="clothes-item-title__label">Текстура</div>
+                                    <div class="clothes-item-title__value">{{Props[6].Texture}}</div>
+                                </div>
+                                <div class="clothes-container__inputRange">
+                                    <input type="range" min="0" :max="GetMaxPropTexturaValue(6)"
+                                        :value="Props[6].Texture"
+                                        @change="SetTexturaPropValue(6, Props[6].Drawable, $event.target.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="menu-container__title">Браслеты</div>
+                        <div class="clothes-container-item">
+                            <div class="clothes-item">
+                                <div class="clothes-item-title">
+                                    <div class="clothes-item-title__label">Элемент</div>
+                                    <div class="clothes-item-title__value">{{Props[7].Drawable}}</div>
+                                </div>
+                                <div class="clothes-container__inputRange">
+                                    <input type="range" min="-1" :max="GetMaxPropDrawableValue(7)"
+                                        :value="Props[7].Drawable"
+                                        @change="SetDrawablePropValue(7, $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="clothes-item">
+                                <div class="clothes-item-title">
+                                    <div class="clothes-item-title__label">Текстура</div>
+                                    <div class="clothes-item-title__value">{{Props[7].Texture}}</div>
+                                </div>
+                                <div class="clothes-container__inputRange">
+                                    <input type="range" min="0" :max="GetMaxPropTexturaValue(7)"
+                                        :value="Props[7].Texture"
+                                        @change="SetTexturaPropValue(7, Props[7].Drawable, $event.target.value)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clothes-container" v-show="GetWindow('Hair')">
+                        <div class="menu-container__title">Волосы</div>
+                        <div class="face-container-item">
+
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Элемент</div>
+                                    <div class="face-item-title__value">{{Components[2].Drawable}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="0" :max="GetMaxDrawableValue(2)"
+                                        :value="Components[2].Drawable"
+                                        @change="SetDrawableValue(2, $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Текстура</div>
+                                    <div class="face-item-title__value">{{Components[2].Texture}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="0" :max="GetMaxTexturaValue(2)"
+                                        :value="Components[2].Texture"
+                                        @change="SetTexturaValue(2, Components[2].Drawable, $event.target.value)">
+                                </div>
+                            </div>
+
+                            <div class="face-item" style="width: 90%;">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Цвет</div>
+                                </div>
+                                <div class="color-select">
+                                    <div v-for="_color in HairsColors" :id="_color.id">
+                                        <div class="color-select-item"
+                                            :style="{'background-color': GetHairColor(_color)}"
+                                            :class="{colorSelectItemSelected: CheckHairsColorSelecting(GetHairColor(_color))}"
+                                            @click="SetHairColor(_color)"></div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="face-item" style="width: 90%;">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Цвет 2</div>
+                                </div>
+                                <div class="color-select">
+                                    <div v-for="_color2 in HairsColors2" :id="_color2.id">
+                                        <div class="color-select-item"
+                                            :style="{'background-color': GetHairColor2(_color2)}"
+                                            :class="{colorSelectItemSelected: CheckHairsColorSelecting2(GetHairColor2(_color2))}"
+                                            @click="SetHairColor2(_color2)"></div>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                        <hr>
+                        <div class="menu-container__title">Борода</div>
+                        <div class="face-container-item">
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Тип</div>
+                                    <div class="face-item-title__value">{{Beard.Index}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="0" :max=GetPedHeadOverlayStyleMax('Beard')
+                                        :value="Beard.Index"
+                                        @change="SetPedHeadOverlayStyle('Beard',  $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Прозрачность</div>
+                                    <div class="face-item-title__value">{{Beard.Opacity}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="0" max=10 :value="Beard.Opacity"
+                                        @change="SetPedHeadOverlayOpacity('Beard', $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="face-item" style="width: 90%;">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Цвет</div>
+                                </div>
+                                <div class="color-select">
+                                    <div v-for="_color in HairsColors" :id="_color.id">
+                                        <div class="color-select-item"
+                                            :style="{'background-color': GetHairColor(_color)}"
+                                            :class="{colorSelectItemSelected: CheckBeardColorSelecting(GetHairColor(_color))}"
+                                            @click="SetColorBeard(_color)"></div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="menu-container__title">Брови</div>
+                        <div class="face-container-item">
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Тип</div>
+                                    <div class="face-item-title__value">{{Eyebrows.Index}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="0" :max=GetPedHeadOverlayStyleMax('Eyebrows')
+                                        :value="Eyebrows.Index"
+                                        @change="SetPedHeadOverlayStyle('Eyebrows',  $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Прозрачность</div>
+                                    <div class="face-item-title__value">{{Eyebrows.Opacity}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="0" max=10 :value="Eyebrows.Opacity"
+                                        @change="SetPedHeadOverlayOpacity('Eyebrows', $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="face-item" style="width: 90%;">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Цвет</div>
+                                </div>
+                                <div class="color-select">
+                                    <div v-for="_color in HairsColors" :id="_color.id">
+                                        <div class="color-select-item"
+                                            :style="{'background-color': GetHairColor(_color)}"
+                                            :class="{colorSelectItemSelected: CheckEyebrowsColorSelecting(_color,GetHairColor(_color))}"
+                                            @click="SetEyebrowsColor(_color)"></div>
+
+
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="menu-container__title">Волосы на груди</div>
+                        <div class="face-container-item">
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Тип</div>
+                                    <div class="face-item-title__value">{{ChestHair.Index}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="0" :max=GetPedHeadOverlayStyleMax('ChestHair')
+                                        :value="ChestHair.Index"
+                                        @change="SetPedHeadOverlayStyle('ChestHair',  $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Прозрачность</div>
+                                    <div class="face-item-title__value">{{ChestHair.Opacity}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="0" max=10 :value="ChestHair.Opacity"
+                                        @change="SetPedHeadOverlayOpacity('ChestHair', $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="face-item" style="width: 90%;">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Цвет</div>
+                                </div>
+                                <div class="color-select">
+                                    <div v-for="_color in HairsColors" :id="_color.id">
+                                        <div class="color-select-item"
+                                            :style="{'background-color': GetHairColor(_color)}"
+                                            :class="{colorSelectItemSelected: CheckChestHairColorSelecting(GetHairColor(_color))}"
+                                            @click="SetChestHairColor(_color)"></div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="clothes-container" v-show="GetWindow('Makeup')">
+                        <div class="menu-container__title">Макияж</div>
+                        <div class="face-container-item">
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Тип</div>
+                                    <div class="face-item-title__value">{{MakeUp.Index}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="0" :max=GetPedHeadOverlayStyleMax('MakeUp')
+                                        :value="MakeUp.Index"
+                                        @change="SetPedHeadOverlayStyle('MakeUp',  $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Прозрачность</div>
+                                    <div class="face-item-title__value">{{MakeUp.Opacity}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="0" max=10 :value="MakeUp.Opacity"
+                                        @change="SetPedHeadOverlayOpacity('MakeUp', $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="face-item" style="width: 90%;">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Цвет</div>
+                                </div>
+                                <div class="color-select">
+                                    <div v-for="_color in MakeUpColors" :id="_color.id">
+                                        <div class="color-select-item"
+                                            :style="{'background-color': GetHairColor(_color)}"
+                                            :class="{colorSelectItemSelected: CheckMakeUpColorSelecting(GetHairColor(_color))}"
+                                            @click="SetMakeUp(_color)"></div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--<<div class="face-item" style="width: 90%;">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Цвет2</div>
+                                </div>
+                                <div class="color-select">
+                                    <div v-for="_color in MakeUpColors" :id="_color.id">
+                                        <div class="color-select-item"
+                                            :style="{'background-color': GetHairColor2(_color)}"
+                                            :class="{colorSelectItemSelected: CheckMakeUpColorSelecting(GetHairColor2(_color))}"
+                                            @click="SetMakeUp(_color)"></div>
+    
+                                    </div>
+                                </div>
+                            </div> -->
+                        </div>
+                        <hr>
+                        <div class="menu-container__title">Румяна</div>
+                        <div class="face-container-item">
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Тип</div>
+                                    <div class="face-item-title__value">{{Blush.Index}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="0" :max=GetPedHeadOverlayStyleMax('Blush')
+                                        :value="Blush.Index"
+                                        @change="SetPedHeadOverlayStyle('Blush',  $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Прозрачность</div>
+                                    <div class="face-item-title__value">{{Blush.Opacity}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="0" max=10 :value="Blush.Opacity"
+                                        @change="SetPedHeadOverlayOpacity('Blush', $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="face-item" style="width: 90%;">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Цвет</div>
+                                </div>
+                                <div class="color-select">
+                                    <div v-for="_color in MakeUpColors" :id="_color.id">
+                                        <div class="color-select-item"
+                                            :style="{'background-color': GetHairColor(_color)}"
+                                            :class="{colorSelectItemSelected: CheckBlushColorSelecting(GetHairColor(_color))}"
+                                            @click="SetBlush(_color)"></div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="menu-container__title">Помада</div>
+                        <div class="face-container-item">
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Тип</div>
+                                    <div class="face-item-title__value">{{Lipstick.Index}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="0" :max=GetPedHeadOverlayStyleMax('Lipstick')
+                                        :value="Lipstick.Index"
+                                        @change="SetPedHeadOverlayStyle('Lipstick',  $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="face-item">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Прозрачность</div>
+                                    <div class="face-item-title__value">{{Lipstick.Opacity}}</div>
+                                </div>
+                                <div class="face-container__inputRange">
+                                    <input type="range" min="0" max=10 :value="Lipstick.Opacity"
+                                        @change="SetPedHeadOverlayOpacity('Lipstick', $event.target.value)">
+                                </div>
+                            </div>
+                            <div class="face-item" style="width: 90%;">
+                                <div class="face-item-title">
+                                    <div class="face-item-title__label">Цвет</div>
+                                </div>
+                                <div class="color-select">
+                                    <div v-for="_color in MakeUpColors" :id="_color.id">
+                                        <div class="color-select-item"
+                                            :style="{'background-color': GetHairColor(_color)}"
+                                            :class="{colorSelectItemSelected: CheckLipstickColorSelecting(GetHairColor(_color))}"
+                                            @click="SetLipstick(_color)"></div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+                <div class="hand-button">
+                    <img src="./assets/img/handsUp.png" alt="" width="56" height="56" @click="HandsUp()">
+                </div>
+                <div class="save-button" @click="Save()">
+                    Сохранить
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="notification">
+        <div class="notifications-container" v-show="notificationShow">
+            <div class="notifications">
+                <div class="notification_item" v-for="notification in notifications" :key="notification.id"
+                    :style="{'border-color': notification.color}">
+                    <div class="notification_item_top">
+                        <div class="notification_item_title">
+                            {{notification.title}}
+                        </div>
+
+                    </div>
+                    <div class="notification_item_botton">
+                        <div class="notification_item_text">
+                            {{notification.message}}
+                        </div>
+                        <div class="notification_item_img">
+                            <!--<img src="./media/icons/icon_inventory.png" width="64" height="64"> -->
+                            <div class="type-img" v-if="notification.needImg">
+                                <img :src="notification.image" width="64" height="64" alt="">
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="helpMessageContainer" v-show="showHelpMessage">
+            <div class="helpMessage" :style="{'background-color': showHelpMessageBG}">
+                <div class="helpMessage-top-flex">
+                    <div class="helpMessage-title">
+                        {{showHelpMessageTitle}}
+                    </div>
+                    <div class="helpMessage-type" v-if="showHelpMessageIMG!=''">
+                        <img :src="'./media/icons/'+showHelpMessageIMG+'.png'" width="56" height="56" alt="">
+                    </div>
+                </div>
+
+                <div class="helpMessage-content">
+                    <div class="helpMessage-mes">{{showHelpMessageText}}</div>
+
+                </div>
+            </div>
+        </div>
+        <div class="interract_container" v-show="visibleInterract">
+            <!--<span class="text"> Нажмите X, для взаимодействия</span> 
+            <img class="interract-btn-blink" src="./assets/icons/letter-e.png" width="56" height="56" alt="">-->
+            <p v-if="InterractText !=''">[E] - {{InterractText}}</p>
+            <p v-else>[E] - для взаимодействия</p>
+        </div>
+        <div class="scenario_container" v-show="scenarioNotShow">
+            <span class="text"> Доступен сценарий</span>
+
+        </div>
+        <div class="progress_bar" v-show="progress_barShow">
+            <progress class="progress-action" :max="progress_action_max" :value="progress_action_value">
+            </progress>
+        </div>
+
+        <div class="LogoFade" v-show="LogoFadeShow">
+            <div class="logofade-contaner">
+                <img src="./media/img/avatar_serverBig.png" width="128" height="128" alt="">
+            </div>
+        </div>
+
+
+        <div class="interractmenu_container" v-show="InterractMenuShow ">
+
+            <nav class="interractmenu">
+                <div class="m_items">
+                    <!--<div v-for="m_item in ItemsMenu" :key="m_item.Id" class="m_item" 
+                    :style="[{'top':`${topCalc(m_item.Id)}`}, {'left':`${leftCalc(m_item.Id)}`}]"  @click="itemSelect(m_item)">
+                    </div>-->
+                    <div v-for="m_item in ItemsMenu" :key="m_item.Id" @click="interractmenuItemSelect(m_item)">
+                        <div class="m_item" v-show="m_item.IsVisible">{{m_item.Emoji}}{{m_item.Text}} </div>
+                    </div>
+                    <div class="_center m_item" @click="InterractMenuClose">
+                        Закрыть
+                    </div>
+
+                </div>
+
+
+            </nav>
+            <!--<div class="_center" @click="InterractMenuClose">
+                X
+            </div> -->
+
+        </div>
+        <!--<div class="raycast_container" v-show="RayCastShow">
+            <div class="r_items" v-for="r_item in RayCastMenu" :key="r_item.Id">
+                <div class="r_item" @click="ClickRaycast($event, r_item)" v-show="r_item.CanShow">
+                    <h3>{{r_item.Title}}</h3> 
+                    <div>
+                        {{r_item.SubTitle}}
+                    </div>
+                    <div>
+                        <img :src=r_item.Image alt="">
+                    </div>
+                </div>
+            </div>
+            
+        </div> -->
+        <div class="raycast_container" v-show="RayCastShow">
+            <div class="eye" v-show="!RayCastSubMenuShow">
+                <!--<svg id="eyeSvg" xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 0 24 24" width="36px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 4C7 4 2.73 7.11 1 11.5 2.73 15.89 7 19 12 19s9.27-3.11 11-7.5C21.27 7.11 17 4 12 4zm0 12.5c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>-->
+                <div>
+                    <svg :class="{eye_hover:GetColorTarget()} " width="36px" height="36px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10.035,18.069a7.981,7.981,0,0,0,3.938-1.035l3.332,3.332a2.164,2.164,0,0,0,3.061-3.061l-3.332-3.332A8.032,8.032,0,0,0,4.354,4.354a8.034,8.034,0,0,0,5.681,13.715ZM5.768,5.768A6.033,6.033,0,1,1,4,10.035,5.989,5.989,0,0,1,5.768,5.768Z"
+                        /></svg>
+                </div>
+                <div class="title" @click="RayCastMenuTitleClick()" v-show="RayCastTitleShow">
+                    {{this.RayCastMenu.Title}}
+                </div>
+                
+            </div>
+            <div id="options-wrapper" v-show="RayCastSubMenuShow">
+                <div v-for="menuitem in RayCastMenuSubMenu" :id="menuitem.Id" class="item-conatiner">
+                    <div class="menuitem" @click="RayCastMenuSubMenuClick(menuitem)">
+                        {{menuitem.Title}}
+                    </div>
+                </div>
+            </div>
+            
+            
+        </div>
+
+
+    </div>
+
+    <div id="inventory">
+        <div id="submenu" class="submenu-contaiter" v-show="context_menuShow">
+            <ul>
+                <li v-for="context_menuitem in context_menuItems" :key="context_menuitem.id"
+                    @click="contextitemselect(context_menuitem)">
+                    <span class="emoji">{{context_menuitem.emoji}}</span>{{context_menuitem.text}}
+                </li>
+            </ul>
+        </div>
+        <div id="submenuDesc" class="submenu-contaiter" v-show="context_menu_descriptionShow">
+            <ul>
+                {{context_menu_description}}
+            </ul>
+        </div>
+        <div class="inventory-main-container" v-show="InventoryShow">
+            <div class="main-container" id="droppableMain"   >
+                <div class="title-container">
+                    Заголовок
+                </div>
+                <div class="data-container" id="droppableMain"  >
+                    <div v-for="item in Items" :id="item.id" >
+                        <div class="item-container__empty" id="droppableMain" v-if="item.IsEmpty" @mouseover.stop="isDroppable($event,'main')">
+                            
+                        </div>
+                        <div class="item-container"  data-dir="fromMain" :data-itemid=item.id
+                            @contextmenu="contextmenu($event, item)"    
+                            @mouseover.stop="descriptionShowMain($event, item, true), isDroppableNotNull($event,'main', item)"
+                            @mouseout="descriptionShowMain($event, item, false)"
+                            @mouseenter="setDraggeble($event, item)" 
+                            
+                            v-else>
+                            {{item.count}}
+                            <img :src="getImg(item)" alt="" height="64" width="64" id="droppableMainSlot">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="ground-container" v-show="InventoryShow" id="droppableGround"
+            @mouseenter="isDroppable($event,'ground')">
+            <div class="ground-container-title">
+                Земля
+            </div>
+            <div class="ground-container__body">
+                <div class="data-container">
+                    <div v-for="item in ItemsGround" :id="item.id">
+                        <!--<div class="item-container" @mouseenter="setDraggeble($event, item)" id="draggableGround"
+                            data-dir="fromGround" :data-itemid=item.id>
+                            {{item.text}}
+                            <img :src="getImg(item)" alt="" height="64" width="64">
+                        </div> -->
+                        <div class="item-container__empty" v-if="item.IsEmpty">
+                            
+                        </div>
+                        <div class="item-container"  id="draggableMain"  data-dir="fromGround" :data-itemid=item.id
+                            @mouseenter="setDraggeble($event, item)" 
+                            v-else>
+                            {{item.count}}
+                            <img :src="getImg(item)" alt="" height="64" width="64">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="inventory-second-container" v-show="InventoryOtherShow">
+            <div class="main-container" id="droppableOther" @mouseenter.stop="isDroppable($event, 'other')">
+                <div class="title-container">
+                    {{InventoryOtherTitle}}
+                </div>
+                <div class="data-container" @mouseenter.stop="isDroppable($event, 'other')">
+                    <div v-for="item in ItemsOther" :id="item.id">
+                        <div class="item-container__empty" v-if="item.IsEmpty" @mouseenter="isDroppable($event, 'other')">
+                            
+                        </div>
+                        <div class="item-container"  id="draggableOther"  data-dir="fromOther" :data-itemid=item.id
+                            @mouseenter="setDraggeble($event, item)" 
+                            v-else>
+                            {{item.count}}
+                            <img :src="getImg(item)" alt="" height="64" width="64">
+                        </div>
+
+
+
+                        <!--<div class="item-container" @mouseenter="setDraggeble($event, item)" id="draggableOther"
+                            data-dir="fromOther" :data-itemid=item.id>
+                            {{item.text}}
+                            <img :src="getImg(item)" alt="" height="64" width="64">
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="descriptionMain" class="descriptionMain" v-show="descriptionMainTextShow">
+            <div class="title-container">
+                <div class="text">{{descriptionMainText}}</div>
+                <div class="image">
+                    <img :src="getImg(descriptionMainImg)" hight="64" width="64" alt="">
+                </div>
+            </div>
+            
+            <div class="description" v-if="descriptionMainPersDescription != undefined">{{descriptionMainPersDescription}}</div>
+            
+            <div class="description">{{descriptionMainDescription}}</div>
+        </div>
+        <div class="countBox" v-show="countBoxShow">
+            <div class="title-container">
+                <div class="countBox__title">{{transfer_item_title}}</div>
+                <div class="countBox__img">
+                    <img :src="setImg(transfer_item_img)" alt="" height="56" width="56">    
+                </div>
+            </div>
+            <div class="countBox__interact">
+                {{countBoxValue}}
+                <input type="range" name="" id="" min="1" value="1" :max="countBoxMax"
+                    @change="SetBoxCountValue($event.target.value)"
+                    @input="SetBoxCountValue($event.target.value)">
+
+            </div>
+            <div class="countBox__buttons">
+                <div class="countBox__buttons-btn" style="background-color: blue;" @click="countBoxOk()">
+                    Принять
+                </div>
+                <div class="countBox__buttons-btn" style="background-color: red;" @click="countBoxClose()">
+                    Отмена
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="identity">
+        <div class="identity-main-container" v-show="identityShow">
+            <div class="context-container">
+                <div class="title-container">
+                    Создание личности
+                </div>
+                <div class="context-main">
+                    <div class="context-item">
+                        Имя
+                        <input type="text" @change="SetFirstName($event.target.value)">
+                    </div>
+                    <div class="context-item">
+                        Фамилия
+                        <input type="text" @change="SetLastName($event.target.value)">
+                    </div>
+                    <div class="context-item">
+                        Пол
+                       <select name="sex" id="sex" @change="SetSex($event.target.value)">
+                        <option value="male">Муж</option>
+                        <option value="famele">Жен</option>
+                        </select>
+                    </div>
+                    <div class="context-item">
+                        Дата рождения
+                        <input type="date" @change="SetDob($event.target.value)">
+                    </div>
+                    <div class="context-item">
+                        Место рождения
+                        <input type="text" @change="SetPlaceB($event.target.value)">
+                    </div>
+                    <div class="context-item" @change="SetNat($event.target.value)">
+                        Национальность
+                        <input type="text">
+                    </div>
+                    <div class="context-item">
+                        Рост 
+                        <div class="context-item__height">
+                            {{hight}} cм
+                            <input type="range" min="150" max="210" step="10" style="align-self:normal"  :value="hight" @change="SetHight($event.target.value)">
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="btns-container">
+                    <div class="btn-item" style="background-color: blue;" @click=OkBtn()>
+                        Принять
+                    </div>
+                    <div class="btn-item" style="background-color: red;" @click=CancelBtn()>
+                        Отмена
+                    </div>
+                </div>
+            </div>
+            <div class="cards-container">
+                <div class="cards" v-for="card in cards" :id="card.Id">
+                    <div class="cards-item" :class="{cardSelected: checkCardSelected(card)}" @click="onCardSelect(card)">
+                        <div class="title">
+                            {{card.Title}}
+                        </div>
+                        <div class="descriptions" v-for="text in card.Descriptions">
+                            <div class="description">
+                                {{text.Id}}. {{text.Text}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="menu">
+        <div class="menu__main-container" v-show="menuShow">
+            <div class="menu__title">
+                <div class="menu__title__text">
+                    {{title}}
+                </div>
+                <hr />
+            </div>
+            <div class="menu__items-container">
+                <div class="menu__items-container__body" >
+                    <div v-for="rootItem in rootItems" :key="rootItem.Id">
+                        <div class="menu__items-container__item verticalLine" v-show="rootItem.Visible"
+                            v-if="rootItem.Type == 'menu_item'">
+                            <div style="justify-content: center;" @click.stop="itemClick(rootItem)">
+                                <h3>{{rootItem.Text}}</h3>
+                                <div class="btn-img" :class="{'btn-img-img':rootItem.hasTarget}"></div>
+                            </div>
+                        </div>
+                        <div class="menu__items-container__list-item verticalLine"
+                            v-else-if="rootItem.Type == 'menu_list_item'">
+                            <div class="menu__items-container__list-item__container">
+                                <h3>{{rootItem.Text}}</h3>
+                                <div class="menu__items-container__list-item__container__items">
+                                    <div class="menu__items-container__list-item__container__img"
+                                        style="background-image: url('./media/img/right-chevron.png'); transform: rotate(180deg);"
+                                        @click="sliderSelectMinus(rootItem)"></div>
+                                    <h3 style="margin-left: 6px; margin-right: 6px">{{rootItem.ItemName}}</h3>
+                                    <div class="menu__items-container__list-item__container__img"
+                                        style="background-image: url('./media/img/right-chevron.png')"
+                                        @click="sliderSelectPlus(rootItem)"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="menu__items-container__textbox_item verticalLine"
+                            v-else-if="rootItem.Type == 'menu_textbox_item'">
+            
+                            <div style="margin-right: 5px;"> {{rootItem.Text}}</div>
+                            <input class="menu__input" type="text" :minLength="rootItem.MinLength"
+                                :maxLength="rootItem.MaxLength" :pattern="rootItem.Pattern"
+                                :placeholder="rootItem.Placeholder" :value="rootItem.Value"
+                                @change="textInput(rootItem, $event.target.value)" />
+                        </div>
+                        <div class="menu__items-container__slider_item verticalLine"
+                            v-else-if="rootItem.Type == 'menu_slider_item'">
+                            <h3> {{rootItem.Text}}</h3>
+                            <div class="menu__items-container__slider_item__container">
+                                <input class="slider" type="range" :min="rootItem.Min" :max="rootItem.Max"
+                                    :step="rootItem.Step" :value="rootItem.Value"
+                                    @change="sliderChange(rootItem, $event.target.value)" style="width: 35%;" />
+                                <h3>{{rootItem.Value}}</h3>
+                            </div>
+                        </div>
+                        <div class="menu__items-container__slider_selector_item verticalLine"
+                            v-show="rootItem.Visible" v-if="rootItem.Type == 'menu_slider_selector_item'">
+                            <h3>{{rootItem.Text}}</h3>
+                            <div class="menu__items-container__slider_selector_item__container">
+                                <h3>{{rootItem.Min}}</h3>
+                                    <div class="slider-list-content">
+                                        <div class="slider-list-content__value">
+                                            {{rootItem.Value}}
+                                        </div>
+                                        <input class="slider-selector" type="range" :min="rootItem.Min"
+                                            :max="rootItem.Max" :step="rootItem.Step" :value="rootItem.Value"
+                                            @change="sliderChange(rootItem, $event.target.value)" />
+                                    </div>
+                                    <h3>{{rootItem.Max}}</h3>
+                            </div>
+                        </div>
+                        <div class="menu__items-container__product-item verticalLine"
+                            v-show="rootItem.Visible" v-if="rootItem.Type == 'menu_stats_item'">
+                            <div class="menu__items-container__product-item__container"
+                                @click.stop="itemClick(rootItem)">
+                                <h3>{{rootItem.Text}}</h3>
+                                <div class="btn-stats-container">
+                                    <img :src="getImg(rootItem.Value)"> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="menu__items-container__product-item verticalLine"
+                            v-show="rootItem.Visible" v-if="rootItem.Type == 'menu_product_item'">
+                            <div class="menu__items-container__product-item__container"
+                                @click.stop="itemClick(rootItem)">
+                                <h3>{{rootItem.Text}}</h3>
+                                <div class="item-img">
+                                    <img :src="'./media/img/inventory/'+rootItem.Img" alt="" height="48" width="48">
+                                </div>
+                            </div>
+                            <div class="product-item__bottoncontainer">
+                                <div class="product-item__price">
+                                    ${{rootItem.Price}}
+                                </div>
+                                <div class="product-item__remains">
+                                    Остаток: {{rootItem.Remains}} шт.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="menu__items-container__vehicle-item verticalLine"
+                            v-show="rootItem.Visible" v-if="rootItem.Type == 'menu_vehicle_item'" @click.stop="itemClick(rootItem)">
+                            <div class="menu__items-container__vehicle-item__container">
+                                <div class="vehicle-item__container-top">
+                                    <div class="top-item">
+                                        Марка: {{rootItem.Model}}
+                                    </div>
+                                    <div class="top-item">
+                                        Номер: {{rootItem.Plate}}
+                                    </div>
+                                </div>
+                                <div class="vehicle-item__container-body">
+                                    <div class="body-item">
+                                        Гараж: {{rootItem.Garage}}
+                                    </div>
+                                    <div class="body-item" :style="GetColor(rootItem.State)">
+                                        Статус:{{rootItem.State}}
+                                    </div>
+                                </div>
+                                <div class="botton">
+                                     
+                                </div>
+                            </div>
+                            <!--<div class="menu__items-container__vehicle-item__container">
+                                <h3>Марка: {{rootItem.Text}}</h3>
+                            </div>
+                            <div class="vehicle-item__plate-container">
+                                <div class="vehicle-item__plate">
+                                    Номер: {{rootItem.Plate}}
+                                </div>
+                                <div class="vehicle-item__garage">
+                                    Гараж: {{rootItem.Garage}}
+                                </div>
+                                <div class="vehicle-item__garage">
+                                    Статус: {{rootItem.State}}
+                                </div>
+                            </div>
+                            <div class="vehicle-item__bottoncontainer">
+                               <div class="vehicle-item__params">
+                                    <div>Бензин: {{rootItem.Fuel}} </div> 
+                                    <div>Двигатель: {{rootItem.Engine}} </div >
+                                    <div>Кузов: {{rootItem.Damage}} </div >
+                                </div>
+                            </div> -->
+                        </div>
+                        <div class="menu__items-container__product-item verticalLine"
+                            v-show="rootItem.Visible" v-if="rootItem.Type == 'menu_craft_item'">
+                            <div class="menu__items-container__product-item__container"
+                                @click.stop="itemClick(rootItem)">
+                                <h3>{{rootItem.Text}}</h3>
+                                <h3>{{rootItem.Label}}</h3>
+                                <div class="item-img">
+                                    <img :src="'./media/img/inventory/'+rootItem.Img" alt="" height="48" width="48">
+                                </div>
+                            </div>
+                            <div class="product-item__bottoncontainer">
+            
+                            </div>
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+       
+    </div>
+   
+</body>
+<script src="./scripts/charaterSelect.js"></script>
+<script src="./scripts/characterCreate.js"></script>
+<script src="./scripts/notification.js"></script>
+<script src="./scripts/inventory.js"></script>
+<script src="./scripts/identity.js"></script>
+<script src="./scripts/hud.js"></script>
+<script src="./scripts/menu.js"></script>
+<script src="./scripts/functions.js"></script>
+
+</html>
