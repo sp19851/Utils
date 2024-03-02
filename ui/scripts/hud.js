@@ -226,11 +226,13 @@ const Hud = {
                 this.carHud = false
                 $(".location ").fadeOut()
             } else if (event.data.request == "hud.setclock"){
+                //console.log("clock", JSON.stringify(event.data));
                 let clock = String(event.data.hours).padStart(2, "0") +":"+ String(event.data.minutes).padStart(2, "0")+":"+ String(event.data.seconds).padStart(2, "0")
                 let date = String(event.data.day).padStart(2, "0") + "."+ String(event.data.month).padStart(2, "0") + "."+ event.data.year
                 $(".date span").text(date);
                 $(".clock span").text(String(clock).padStart(3, "0"));
                 //this.onShow(event.data.canHudShow)
+                //console.log("clock " , clock, "date ", date);
             } else if (event.data.request == "hud.setweather"){
                 $(".weather span").text("Текущая погода: "+event.data.weather);
                 //this.onShow(event.data.canHudShow)
@@ -243,7 +245,7 @@ const Hud = {
             } else if (event.data.request == "hud.setserverid") {
                 this.serverId = event.data.value
             } else if (event.data.request == "hud.setcash") {
-                console.log("event", JSON.stringify(event.data))
+                //console.log("event", JSON.stringify(event.data))
                 this.cash = event.data.value
             } else if (event.data.request === "loginscreen.hide") {
                 this.onClose();

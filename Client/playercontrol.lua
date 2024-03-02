@@ -29,6 +29,39 @@ exports("ShowHud", function (visible)
     })
 end)
 
+exports("SetChash", function (cash)
+    SendNUIMessage({
+        request = "hud.setcash", value = cash
+    })
+end)
+
+exports("SetServerId", function (serverId)
+    SendNUIMessage({
+        request = "hud.setserverid", value = serverId
+    })
+end)
+
+exports("SetClock", function (day, month,  year,  hours,  minutes,  seconds)
+    --print("SetClock", day, month,  year,  hours,  minutes,  seconds)
+    SendNUIMessage({
+        request = "hud.setclock",
+        day = day,
+        month = month,
+        year = year,
+        hours = hours,
+        minutes = minutes,
+        seconds = seconds,
+        canHudShow =  Config.Hud.CanHudShow
+    })
+end)
+
+exports("SetWeather", function (currentWeather)
+    SendNUIMessage({
+        request = "hud.setweather",
+        weather = currentWeather,
+        canHudShow =  Config.Hud.CanHudShow
+    })
+end)
 
 Citizen.CreateThread(function()
     while true do
