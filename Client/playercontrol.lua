@@ -41,8 +41,7 @@ exports("SetServerId", function (serverId)
     })
 end)
 
-exports("SetClock", function (day, month,  year,  hours,  minutes,  seconds)
-    --print("SetClock", day, month,  year,  hours,  minutes,  seconds)
+RegisterNetEvent('SetClock', function(day, month,  year,  hours,  minutes,  seconds)
     SendNUIMessage({
         request = "hud.setclock",
         day = day,
@@ -55,13 +54,35 @@ exports("SetClock", function (day, month,  year,  hours,  minutes,  seconds)
     })
 end)
 
-exports("SetWeather", function (currentWeather)
+--[[exports("SetClock", function (day, month,  year,  hours,  minutes,  seconds)
+    SendNUIMessage({
+        request = "hud.setclock",
+        day = day,
+        month = month,
+        year = year,
+        hours = hours,
+        minutes = minutes,
+        seconds = seconds,
+        canHudShow =  Config.Hud.CanHudShow
+    })
+end)]]
+
+
+RegisterNetEvent('SetWeather', function(currentWeather)
     SendNUIMessage({
         request = "hud.setweather",
         weather = currentWeather,
         canHudShow =  Config.Hud.CanHudShow
     })
 end)
+
+--[[exports("SetWeather", function (currentWeather)
+    SendNUIMessage({
+        request = "hud.setweather",
+        weather = currentWeather,
+        canHudShow =  Config.Hud.CanHudShow
+    })
+end)]]
 
 Citizen.CreateThread(function()
     while true do
