@@ -327,8 +327,11 @@
   position: absolute;
   display: flex;
   gap: 5px;
+  /*border: 1px solid black;*/
+  display: flex;
+  flex-direction: column;
 }
-.main-hud-container .status span {
+.main-hud-container .status div {
   font-family: "Poppins", sans-serif;
 }
 .main-hud-container .status img {
@@ -394,6 +397,7 @@
 }
 .main-hud-container .carhud .other-wrapper .mileage {
   margin-top: 15px;
+  font-size: 15px;
 }
 .main-hud-container .carhud .speed {
   font-size: 100px;

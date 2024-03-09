@@ -370,10 +370,12 @@
             position: absolute;
             display: flex;
             gap: 5px;
-            
+            /*border: 1px solid black;*/
+            display: flex;
+            flex-direction: column;
         }
 
-        span{
+        div{
             font-family: 'Poppins', sans-serif;
         }
 
@@ -449,6 +451,7 @@
             }
             .mileage{
                 margin-top: 15px;
+                font-size: 15px;
             }
         }
 

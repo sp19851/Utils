@@ -57,9 +57,12 @@ const Hud = {
 
             if (data.inCar) {
                 $(".location .location-text").text(data.street);
+                $(".location .location-text2").text(data.street2);
                 $(".location").fadeIn()
+                
             } else {
                 $(".location ").fadeOut()
+                
             }
 
             if (data.inCar) {
@@ -127,6 +130,7 @@ const Hud = {
           
             $(".stats .bottom").hide()
             $(".location .location-text").text(data.street);
+            $(".location .location-text2").text(data.street2);
             if (armor == 0) {
                 $(".armour-wrapper").fadeOut();
             } else if (armor > 0) {
@@ -225,6 +229,7 @@ const Hud = {
             } else if (event.data.request == "carhud.hide"){
                 this.carHud = false
                 $(".location ").fadeOut()
+                
             } else if (event.data.request == "hud.setclock"){
                 //console.log("clock", JSON.stringify(event.data));
                 let clock = String(event.data.hours).padStart(2, "0") +":"+ String(event.data.minutes).padStart(2, "0")+":"+ String(event.data.seconds).padStart(2, "0")

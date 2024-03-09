@@ -1,9 +1,37 @@
 --Вывод данных худа ТС
 local inCar = false
+local DamageEngine = 75
 exports("ShowVehicleHud", function (bool)
     --if (inCar == false) then return end
     inCar= bool
 end)
+
+local function GetVehEngineHealth(veh)
+        return (GetVehicleEngineHealth(veh) / 1000) * 100;
+end
+        --[[public float GetVehBodyHealth(CitizenFX.Core.Vehicle veh)
+        {
+            return (veh.BodyHealth / 1000f) * 100f;
+        }
+        public float GetVehHealth(CitizenFX.Core.Vehicle veh)
+        {
+            return (veh.HealthFloat / veh.MaxHealthFloat) * 100f;
+        }
+        public float GetVehSubmission(CitizenFX.Core.Vehicle veh)
+        {
+            return (veh.SubmersionLevel / 1000f) * 100f;
+        }]]
+
+local function DamageControl()
+    local vehicle = GetVehicleIsPedIsDriver()
+    if (GetVehEngineHealth(vehicle) < DamageEngine) then
+        SetVehicleEngineHealth(vehicle, 100)
+        SetVehicleUndriveable(vehicle, true)
+        SetVehicleEngineOn(vehicle, false, true, true)
+    end
+    
+end
+
 
 Citizen.CreateThread(function()
     while true do
@@ -14,7 +42,7 @@ Citizen.CreateThread(function()
             local streetHash = 0
             local crossingRoad = 0
             local streetHash, crossingRoad = GetStreetNameAtCoord(playerPositionX, playerPositionY, playerPositionZ)
-            local street = GetStreetNameFromHashKey(streetHash)
+            local streetName = GetStreetNameFromHashKey(streetHash)
             local zone = GetNameOfZone(playerPositionX, playerPositionY, playerPositionZ)
             local zoneText = ""
             for i, v in pairs(Config.Zones) do
@@ -26,22 +54,29 @@ Citizen.CreateThread(function()
             local veh = GetVehicleIsPedIsDriver()
             local vehH = GetEntityHeading(veh)
             if (crossingRoad >0 ) then
-                street = GetDirectionText(vehH) .." | " .. zoneText .. " | " .. street .. " | " .. GetStreetNameFromHashKey(crossingRoad)
+                street = GetDirectionText(vehH) .." | " .. zoneText
+                street2 = streetName .. " | " .. GetStreetNameFromHashKey(crossingRoad)
             else
-                street = GetDirectionText(vehH) .. " | " .. zoneText .. " | " .. street
+                street = GetDirectionText(vehH) .." | " .. zoneText
+                street2 = streetName
             end
             IsCanHudShow()
             SendNUIMessage({
                 request = "hud.other",
                 street = street,
+                street2 = street2,
                 inCar = IsPedIsDriver(),
                 --canHudShow = Config.Hud.CanHudShow
                 
             })
+
+            DamageControl()
+
         else 
             SendNUIMessage({
                 request = "carhud.hide",
                 street = street,
+                street2 = street2,
                 inCar = IsPedIsDriver(),
                 --canHudShow = Config.Hud.CanHudShow
                 
