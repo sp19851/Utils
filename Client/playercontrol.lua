@@ -19,7 +19,7 @@ end
 exports("ShowHud", function (visible)
     --print("exports ShowHud visible", visible)
     Config.Hud.isShow = visible
-    if ( not Config.Hud.CanHudShow) then 
+    if (not Config.Hud.CanHudShow) then 
         Config.Hud.isShow = false
     end
     
@@ -28,6 +28,19 @@ exports("ShowHud", function (visible)
         visible = visible
     })
 end)
+
+function onShowHud(visible)
+    Config.Hud.isShow = visible
+    if (not Config.Hud.CanHudShow) then 
+        Config.Hud.isShow = false
+    end
+    
+    SendNUIMessage({
+        request = "hud.show", 
+        visible = visible
+    })
+end
+
 
 exports("SetChash", function (cash)
     SendNUIMessage({
@@ -88,10 +101,13 @@ end)]]
 
 Citizen.CreateThread(function()
     while true do
+        print("IsPauseMenuActive", Config.Hud.isShow)
         if (IsPauseMenuActive()) then 
-            if (visible) then
-                visible = false
-                ShowHud(visible)
+          
+            if (Config.Hud.isShow) then
+                Config.Hud.isShow = false
+                print("ShowHud visible", Config.Hud.isShow)
+                onShowHud(Config.Hud.isShow)
             end
             Config.Hud.CanHudShow = false 
         else 

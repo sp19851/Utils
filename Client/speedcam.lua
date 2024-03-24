@@ -16,19 +16,19 @@ Citizen.CreateThread(function()
 							local vehClass = GetVehicleClass(veh)
                            
 							if vehClass ~= 16 and vehClass ~= 15 and vehClass ~= 13 then 
-								print ('67', vehspeed, vehspeed* 3.6, vehClass, 'IsVehicleSirenOn(veh)', IsVehicleSirenOn(veh))
+								--print ('67', vehspeed, vehspeed* 3.6, vehClass, 'IsVehicleSirenOn(veh)', IsVehicleSirenOn(veh))
 								--math.ceil(speed)
 								if math.ceil(vehspeed * 3.6) > math.ceil((v.speed) + 10.0) then
                                     if vehClass == 18 then
                                         if IsVehicleSirenOn(veh) == false then
                                             TriggerServerEvent("InteractSound_SV:PlayOnSource", "speedcamera", 0.25)
-                                            TriggerEvent("GenerateInvoiceEvent", vehspeed * 3.6)
+                                            TriggerEvent("GenerateInvoiceEvent", math.ceil(vehspeed * 3.6))
                                         
 											control = false
                                         end
                                     else
                                         TriggerServerEvent("InteractSound_SV:PlayOnSource", "speedcamera", 0.25)
-                                        TriggerEvent("GenerateInvoiceEvent", vehspeed * 3.6)
+                                        TriggerEvent("GenerateInvoiceEvent", math.ceil(vehspeed * 3.6))
                                         
 										control = false
                                     end

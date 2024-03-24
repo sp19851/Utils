@@ -18,7 +18,7 @@ const Hud = {
             let gear = data.gear;
             let mileage = data.mileage;
             //console.log("health", health, " oil", oil)
-            //console.log("data", JSON.stringify(data))
+            console.log("data", JSON.stringify(data))
             $(".speed").text(String(speed).padStart(3, "0"));
             $(".mileage").text(String(mileage).padStart(10, "0")+" km");
             $(".gear-unit").text(gear);
