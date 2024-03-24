@@ -69,6 +69,8 @@ end)]]
 
 
 RegisterNetEvent('SetWeather', function(currentWeather)
+   print('72 SetWeather', currentWeather)
+    
     SendNUIMessage({
         request = "hud.setweather",
         weather = currentWeather,

@@ -96,6 +96,7 @@ RegisterNetEvent('VehicelHudUpdate', function(mileage)
         local speed = math.floor(GetEntitySpeed(vehicle) * 3.6)
         local rpm = math.floor(GetVehicleCurrentRpm(vehicle) * 100)
         local vehicleHealth = GetVehicleEngineHealth(vehicle)
+        local oil =  GetVehicleOilLevel(vehicle)
         local fuel = GetVehicleFuelLevel(vehicle)
         local curVehiclePlate = GetVehicleNumberPlateText(vehicle)
         local curGear = GetVehicleCurrentGear(vehicle)
@@ -108,6 +109,7 @@ RegisterNetEvent('VehicelHudUpdate', function(mileage)
             vehicleSpeed = speed,
             rpm = rpm,
             vehicleHealth = vehiclehealth,
+            oil = oil,
             fuel = fuel,
             gear = gear,
             mileage = mileage, 

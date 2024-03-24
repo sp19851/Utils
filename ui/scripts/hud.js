@@ -1,8 +1,8 @@
 const Hud = {
     data() {
         return {
-            hudShow:false,
-            carHud:false,
+            hudShow:true,
+            carHud:true,
             serverId:0,
             cash:-1
         }
@@ -12,6 +12,7 @@ const Hud = {
         UpdateVehicleInfo(data) {
             let speed = data.vehicleSpeed;
             let health = data.vehicleHealth;
+            let oil = data.oil;
             let rpm = data.rpm;
             let fuel = data.fuel;
             let gear = data.gear;
@@ -50,6 +51,13 @@ const Hud = {
             } else {
                 $(".engine").attr("src", "assets/img/hud/engine.png");
                 $(".engine").css("opacity", "0.3");
+            }
+            if (oil <= 700) {
+                $(".oil").attr("src", "assets/img/hud/oilred.png");
+                $(".oil").css("opacity", "0.8");
+            } else {
+                $(".oil").attr("src", "assets/img/hud/oil.png");
+                $(".oil").css("opacity", "0.3");
             }
         },
         UpdateOtherData(data) {
@@ -228,7 +236,7 @@ const Hud = {
                 //this.onShow(event.data.canHudShow)
             } else if (event.data.request == "carhud.hide"){
                 this.carHud = false
-                $(".location ").fadeOut()
+                $(".location").fadeOut()
                 
             } else if (event.data.request == "hud.setclock"){
                 //console.log("clock", JSON.stringify(event.data));
