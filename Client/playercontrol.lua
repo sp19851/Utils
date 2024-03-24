@@ -17,7 +17,7 @@ local function DrawText2(text)
 end
 
 exports("ShowHud", function (visible)
-    --print("exports ShowHud visible", visible)
+    print("exports ShowHud visible", visible)
     Config.Hud.isShow = visible
     if (not Config.Hud.CanHudShow) then 
         Config.Hud.isShow = false
@@ -30,10 +30,10 @@ exports("ShowHud", function (visible)
 end)
 
 function onShowHud(visible)
-    Config.Hud.isShow = visible
-    if (not Config.Hud.CanHudShow) then 
+    --Config.Hud.isShow = visible
+    --[[if (Config.Hud.CanHudShow == false) then 
         Config.Hud.isShow = false
-    end
+    end]]
     
     SendNUIMessage({
         request = "hud.show", 
@@ -101,17 +101,15 @@ end)]]
 
 Citizen.CreateThread(function()
     while true do
-        print("IsPauseMenuActive", Config.Hud.isShow)
+        print("IsPauseMenuActive isShow", Config.Hud.isShow, "CanHudShow ", Config.Hud.CanHudShow)
         if (IsPauseMenuActive()) then 
-          
-            if (Config.Hud.isShow) then
-                Config.Hud.isShow = false
-                print("ShowHud visible", Config.Hud.isShow)
-                onShowHud(Config.Hud.isShow)
-            end
             Config.Hud.CanHudShow = false 
+            onShowHud(Config.Hud.CanHudShow)
         else 
             Config.Hud.CanHudShow = true 
+            if (Config.Hud.isShow) then
+                onShowHud(Config.Hud.isShow)
+            end
         end
         Citizen.Wait(0)
     end
