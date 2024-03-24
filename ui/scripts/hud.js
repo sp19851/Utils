@@ -17,7 +17,8 @@ const Hud = {
             let fuel = data.fuel;
             let gear = data.gear;
             let mileage = data.mileage;
-            
+            //console.log("health", health, " oil", oil)
+            //console.log("data", JSON.stringify(data))
             $(".speed").text(String(speed).padStart(3, "0"));
             $(".mileage").text(String(mileage).padStart(10, "0")+" km");
             $(".gear-unit").text(gear);
@@ -52,7 +53,10 @@ const Hud = {
                 $(".engine").attr("src", "assets/img/hud/engine.png");
                 $(".engine").css("opacity", "0.3");
             }
-            if (oil <= 700) {
+            if (oil <= 4 && oil > 3) {
+                $(".oil").attr("src", "assets/img/hud/oilorange.png");
+                $(".oil").css("opacity", "0.6");
+            } else if (oil <= 3) {
                 $(".oil").attr("src", "assets/img/hud/oilred.png");
                 $(".oil").css("opacity", "0.8");
             } else {

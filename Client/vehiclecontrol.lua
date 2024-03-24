@@ -108,7 +108,7 @@ RegisterNetEvent('VehicelHudUpdate', function(mileage)
             action = "VehicleInfo",
             vehicleSpeed = speed,
             rpm = rpm,
-            vehicleHealth = vehiclehealth,
+            vehicleHealth = vehicleHealth,
             oil = oil,
             fuel = fuel,
             gear = gear,
