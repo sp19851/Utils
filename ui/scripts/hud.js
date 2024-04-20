@@ -4,7 +4,15 @@ const Hud = {
             hudShow:true,
             carHud:true,
             serverId:0,
-            cash:-1
+            cash:-1,
+            DeathShow:false,
+            DeathShowData: {
+              isCallDoctor:true,
+              keyCall_Doctor:"G",
+              keyRespawn:"E",
+              priceRespawn: 350,
+              timerDeath:50
+            }
         }
     },
 
@@ -266,6 +274,14 @@ const Hud = {
                 this.cash = event.data.value
             } else if (event.data.request === "loginscreen.hide") {
                 this.onClose();
+            } else if (event.data.request === 'hud.death.show') {
+                //console.log('304 hud.death.show', JSON.stringify(event.data))
+                this.DeathShow = true
+                this.DeathShowData = event.data.huditems
+              } else if (event.data.request === 'hud.death.hide') {
+                this.DeathShow = false
+                this.DeathShowData = event.data.huditems
+              
             }
         });
         this.listenerKey = window.addEventListener("keydown", (event) => {
