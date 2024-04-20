@@ -146,12 +146,19 @@
                 Нажмите <span class="red_char">{{DeathShowData.keyCall_Doctor}}</span>, для отправки уведомления медикам. 
                 
             </div>
-            <div class="text-container" v-else>
+            <div class="text-container" v-if="!DeathShowData.isCallDoctor">
                 
-                    Похоже Вы в глубокой жопе, требуется реанимация. Нажмите <span class="red_char">{{DeathShowData.keyRespawn}},</span>
-                    для респавна в больничке. Это будет стоить <span class="red_char"> ${{DeathShowData.priceRespawn}}</span>
+                Вы потеряли сознание. До Вашей смерти осталось
+                <span class="red_char">{{DeathShowData.timerDeath}}</span> сек.
+                <span class="green_char">Уведомление медикам отправлено.</span>
                 
             </div>
+            <div class="text-container" v-if="DeathShowData.isNeedHospital">
+                
+                Похоже Вы в глубокой жопе, требуется реанимация. Нажмите <span class="red_char">{{DeathShowData.keyRespawn}},</span>
+                для респавна в больничке. Это будет стоить <span class="red_char"> ${{DeathShowData.priceRespawn}}</span>
+            
+        </div>
         </div>
     </div>
  

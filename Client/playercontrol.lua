@@ -65,8 +65,21 @@ function StartDieScreen()
                 huditems = huditems
             })
             timerDead = timerDead - 1
-          
-            
+            if (IsControlJustReleased(0, 47))  then --G
+                --сделать затухание экрана
+                TriggerClientEvent("Alert.DoctorCalling")
+                local huditems = {
+                    isNeedHospital = true,
+                    timerDeath = timerDead,
+                    keyCall_Doctor = "G",
+                    keyRespawn = "E",
+                    priceRespawn = 350,
+                }
+                
+            end   
+                  
+              
+           
             if (timerDead < 0) then
                 timerDead = 0
                 needtick = false;
@@ -231,7 +244,7 @@ Citizen.CreateThread(function()
                 //отключить метоболизм
                 //отключить все уведомления
                 ]]
-                TriggerClientEvent("PedCall911")
+                TriggerEvent("Doctor.PedCall911", false)
                 StartDieScreen()
             else
                 Config.Hud.CanHudShow = true  

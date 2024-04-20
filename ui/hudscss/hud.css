@@ -27,6 +27,9 @@
 .death-container .text-container .red_char {
   color: red;
 }
+.death-container .text-container .green_char {
+  color: green;
+}
 
 .main-hud-container {
   width: 100vw;
