@@ -51,7 +51,8 @@ end)
 exports("DoctorAlredyCalled", function ()
     local ped = PlayerPedId()
     local health = GetEntityHealth(ped)
-    if (timerDeadStarted && health >0) then return end
+    print("DoctorAlredyCalled", "health", health, "timerDeadStarted", timerDeadStarted)
+    if (timerDeadStarted and health <=0 ) then
         isCallDoctor = false
         local huditems = {
         isCallDoctor = isCallDoctor,
@@ -61,10 +62,12 @@ exports("DoctorAlredyCalled", function ()
         keyRespawn = "E",
         priceRespawn = 350,
     }
-    SendNUIMessage({
-        request = "hud.death.show",
-        huditems = huditems
-    })
+        SendNUIMessage({
+            request = "hud.death.show",
+            huditems = huditems
+        })
+    end
+    
 end)
 
 exports("ResetTimerDeadStarted", function ()
