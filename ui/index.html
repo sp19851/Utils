@@ -140,25 +140,29 @@
             </div>
         </div>
         <div class="death-container" v-show="DeathShow">
-            <div class="text-container" v-if="DeathShowData.isCallDoctor">
+            <div class="text-container" v-if="DeathShowData.isCallDoctor && !DeathShowData.isNeedHospital">
                 Вы потеряли сознание. До Вашей смерти осталось
                 <span class="red_char">{{DeathShowData.timerDeath}}</span> сек.
-                Нажмите <span class="red_char">{{DeathShowData.keyCall_Doctor}}</span>, для отправки уведомления медикам. 
+                
                 
             </div>
-            <div class="text-container" v-if="!DeathShowData.isCallDoctor">
+            <div class="text-container" v-if="!DeathShowData.isCallDoctor && !DeathShowData.isNeedHospital">
                 
                 Вы потеряли сознание. До Вашей смерти осталось
                 <span class="red_char">{{DeathShowData.timerDeath}}</span> сек.
                 <span class="green_char">Уведомление медикам отправлено.</span>
                 
             </div>
-            <div class="text-container" v-if="DeathShowData.isNeedHospital">
+            <div class="text-container" v-if="DeathShowData.isNeedHospital && DeathShowData.isCallDoctor">
                 
-                Похоже Вы в глубокой жопе, требуется реанимация. Нажмите <span class="red_char">{{DeathShowData.keyRespawn}},</span>
+                Похоже Вы в глубокой жопе, требуется реанимация. Нажмите <span class="red_char">{{DeathShowData.keyCall_Doctor}}</span>, для отправки уведомления медикам. Нажмите <span class="red_char">{{DeathShowData.keyRespawn}},</span>
                 для респавна в больничке. Это будет стоить <span class="red_char"> ${{DeathShowData.priceRespawn}}</span>
-            
-        </div>
+            </div>
+            <div class="text-container" v-if="DeathShowData.isNeedHospital && !DeathShowData.isCallDoctor">
+                
+                Похоже Вы в глубокой жопе, требуется реанимация.  <span class="green_char">Уведомление медикам отправлено.</span> Нажмите <span class="red_char">{{DeathShowData.keyRespawn}},</span>
+                для респавна в больничке. Это будет стоить <span class="red_char"> ${{DeathShowData.priceRespawn}}</span>
+            </div>
         </div>
     </div>
  

@@ -280,7 +280,7 @@ const Hud = {
                 this.DeathShowData = event.data.huditems
               } else if (event.data.request === 'hud.death.hide') {
                 this.DeathShow = false
-                this.DeathShowData = event.data.huditems
+                console.log('304 hud.death.hide')
               
             }
         });

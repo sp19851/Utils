@@ -1,6 +1,21 @@
-local timerDead = 30
+local timerDead = 10
 local isDieTimer = false
 local NeedHideHud = false
+local isCallDoctor = true
+local timerDeadStarted = false
+
+local deadAnimDict = 'dead'
+local deadAnim = 'dead_a'
+
+local inBedDict = 'anim@gangops@morgue@table@'
+local inBedAnim = 'body_search'
+
+local function loadAnimDict(dict)
+    while (not HasAnimDictLoaded(dict)) do
+        RequestAnimDict(dict)
+        Wait(5)
+    end
+end
 
 function IsCanHudShow() 
     Config.Hud.CanHudShow = true
@@ -33,28 +48,114 @@ exports("ShowHud", function (visible)
     })
 end)
 
+exports("DoctorAlredyCalled", function ()
+    local ped = PlayerPedId()
+    local health = GetEntityHealth(ped)
+    if (timerDeadStarted && health >0) then return end
+        isCallDoctor = false
+        local huditems = {
+        isCallDoctor = isCallDoctor,
+        isNeedHospital = false,
+        timerDeath = timerDead,
+        keyCall_Doctor = "G",
+        keyRespawn = "E",
+        priceRespawn = 350,
+    }
+    SendNUIMessage({
+        request = "hud.death.show",
+        huditems = huditems
+    })
+end)
+
+exports("ResetTimerDeadStarted", function ()
+    print("ResetTimerDeadStarted")
+    timerDeadStarted = false
+    AnimpostfxStop("PauseMenuIn")
+end)
+
 function onShowHud(visible)
-    --Config.Hud.isShow = visible
-    --[[if (Config.Hud.CanHudShow == false) then 
-        Config.Hud.isShow = false
-    end]]
-    --print("onShowHud", visible)
     SendNUIMessage({
         request = "hud.show", 
         visible = visible
     })
 end
 
-function StartDieScreen()
-    local sleep = 1000
+
+
+--[[function StartDoctorCallContol()
+    local sleep = 0
     local needtick = true
-    AnimpostfxPlay("PauseMenuIn", 1000, true);        
     Citizen.CreateThread(function()
         while needtick do
-            
-            NeedHideHud = true
+            if (IsControlJustReleased(0, 47))  then --G
+                --сделать затухание экрана
+                print("TriggerServerEvent(Alert.DoctorCalling)")
+                TriggerServerEvent("Alert.DoctorCalling")
+                isCallDoctor = false
+                local huditems = {
+                    isCallDoctor = isCallDoctor,
+                    isNeedHospital = false,
+                    timerDeath = timerDead,
+                    keyCall_Doctor = "G",
+                    keyRespawn = "E",
+                    priceRespawn = 350,
+                }
+                SendNUIMessage({
+                    request = "hud.death.show",
+                    huditems = huditems
+                })
+            end  
+            Citizen.Wait(sleep)
+        end
+        TerminateThisThread()
+    end)
+end]]
+function StartDieScreen()
+    if (timerDeadStarted) then return end
+    local sleep = 1000
+    local needtick = true
+    isDieTimer = true
+    NeedHideHud = true
+    TriggerEvent("Doctor.PedCall911", false)
+    --StartDoctorCallContol()    
+    Citizen.CreateThread(function()
+        while needtick do
+            DisableAllControlActions(0)
+            EnableControlAction(0, 1, true)
+            EnableControlAction(0, 2, true)
+            EnableControlAction(0, 245, true)
+            EnableControlAction(0, 38, true)
+            EnableControlAction(0, 0, true)
+            EnableControlAction(0, 322, true)
+            EnableControlAction(0, 288, true)
+            EnableControlAction(0, 213, true)
+            EnableControlAction(0, 249, true)
+            EnableControlAction(0, 46, true)
+            EnableControlAction(0, 47, true)
+            if IsPedInAnyVehicle(ped, false) then
+                loadAnimDict('veh@low@front_ps@idle_duck')
+                if not IsEntityPlayingAnim(ped, 'veh@low@front_ps@idle_duck', 'sit', 3) then
+                    TaskPlayAnim(ped, 'veh@low@front_ps@idle_duck', 'sit', 1.0, 1.0, -1, 1, 0, 0, 0, 0)
+                end
+            else
+                local isInHospitalBed = false
+                local ped = PlayerPedId()
+                if isInHospitalBed then
+                    if not IsEntityPlayingAnim(ped, inBedDict, inBedAnim, 3) then
+                        loadAnimDict(inBedDict)
+                        TaskPlayAnim(ped, inBedDict, inBedAnim, 1.0, 1.0, -1, 1, 0, 0, 0, 0)
+                    end
+                else
+                    if not IsEntityPlayingAnim(ped, deadAnimDict, deadAnim, 3) then
+                        loadAnimDict(deadAnimDict)
+                        TaskPlayAnim(ped, deadAnimDict, deadAnim, 1.0, 1.0, -1, 1, 0, 0, 0, 0)
+                    end
+                end
+            end
+
+
             local huditems = {
-                isCallDoctor = true,
+                isCallDoctor = isCallDoctor,
                 timerDeath = timerDead,
                 keyCall_Doctor = "G",
                 keyRespawn = "E",
@@ -65,24 +166,10 @@ function StartDieScreen()
                 huditems = huditems
             })
             timerDead = timerDead - 1
-            if (IsControlJustReleased(0, 47))  then --G
-                --сделать затухание экрана
-                TriggerClientEvent("Alert.DoctorCalling")
-                local huditems = {
-                    isNeedHospital = true,
-                    timerDeath = timerDead,
-                    keyCall_Doctor = "G",
-                    keyRespawn = "E",
-                    priceRespawn = 350,
-                }
-                
-            end   
-                  
-              
-           
+             
             if (timerDead < 0) then
                 timerDead = 0
-                needtick = false;
+                needtick = false
                 StartRespawnScreen()
             end
             Citizen.Wait(sleep)
@@ -94,13 +181,24 @@ end
 function StartRespawnScreen()
     local sleep = 0
     local needtick = true
-    AnimpostfxStop("PauseMenuIn")
+    AnimpostfxPlay("PauseMenuIn", 1000, true);   
     Citizen.CreateThread(function()
-     
         while needtick do
-            NeedHideHud = true
+            DisableAllControlActions(0)
+            EnableControlAction(0, 1, true)
+            EnableControlAction(0, 2, true)
+            EnableControlAction(0, 245, true)
+            EnableControlAction(0, 38, true)
+            EnableControlAction(0, 0, true)
+            EnableControlAction(0, 322, true)
+            EnableControlAction(0, 288, true)
+            EnableControlAction(0, 213, true)
+            EnableControlAction(0, 249, true)
+            EnableControlAction(0, 46, true)
+            EnableControlAction(0, 47, true)
             local huditems = {
-                isCallDoctor = false,
+                isCallDoctor = isCallDoctor,
+                isNeedHospital = true,
                 timerDeath = timerDead,
                 keyCall_Doctor = "G",
                 keyRespawn = "E",
@@ -110,16 +208,36 @@ function StartRespawnScreen()
                 request = "hud.death.show",
                 huditems = huditems
             })
+            if (IsControlJustReleased(0, 47) and isCallDoctor)  then --G
+                --сделать затухание экрана
+                print("TriggerServerEvent(Alert.DoctorCalling)")
+                TriggerServerEvent("Alert.DoctorCalling")
+                isCallDoctor = false
+                local huditems = {
+                    isCallDoctor = isCallDoctor,
+                    isNeedHospital = false,
+                    timerDeath = timerDead,
+                    keyCall_Doctor = "G",
+                    keyRespawn = "E",
+                    priceRespawn = 350,
+                }
+                SendNUIMessage({
+                    request = "hud.death.show",
+                    huditems = huditems
+                })
+            end  
             if (IsControlJustReleased(0, 38))  then --E
               --сделать затухание экрана
-              TriggerClientEvent("Doctor.RespawnToNeerHospital")
-              print("TriggerClientEvent(Doctor.RespawnToNeerHospital)")
+              TriggerEvent("Doctor.RespawnToHospital")
+              AnimpostfxStop("PauseMenuIn")
+              print("TriggerEvent(Doctor.RespawnToHospital)")
               NeedHideHud = false
+              isDieTimer = false 
+              needtick = false
               SendNUIMessage({
                 request = "hud.death.hide",
-                huditems = huditems
-                
-            })
+              })
+              Citizen.Wait(5000)
             end
             Citizen.Wait(sleep)
         end
@@ -186,7 +304,7 @@ end)]]
 
 Citizen.CreateThread(function()
     while true do
-        --print("IsPauseMenuActive isShow", Config.Hud.isShow, "CanHudShow ", Config.Hud.CanHudShow)
+        --print("IsPauseMenuActive isShow", Config.Hud.isShow, "CanHudShow ", Config.Hud.CanHudShow, "IsPauseMenuActive()", IsPauseMenuActive(), "NeedHideHud", NeedHideHud)
         if (IsPauseMenuActive() or NeedHideHud) then 
             Config.Hud.CanHudShow = false 
             onShowHud(Config.Hud.CanHudShow)
@@ -209,6 +327,7 @@ Citizen.CreateThread(function()
         else
             if (IsRadarHidden()) then DisplayRadar(true) end
         end
+        --print("231", "Config.Hud.CanHudShow", Config.Hud.CanHudShow, "isDieTimer", isDieTimer)
         if (isDieTimer == false and Config.Hud.CanHudShow == true) then 
             local ped = PlayerPedId()
             local health = GetEntityHealth(ped)
@@ -238,14 +357,16 @@ Citizen.CreateThread(function()
             --проверяем не умерли мы
             if (health <= 0 ) then
                 --print("Мы помираем.....", IsPedDeadOrDying(ped, true), IsEntityDead(ped))
-                isDieTimer = true
-                NeedHideHud = true
+                
+                --print("292 здоровье 0 поэтому NeedHideHud = true")
+                
                 --[[//отключить худ
                 //отключить метоболизм
                 //отключить все уведомления
                 ]]
-                TriggerEvent("Doctor.PedCall911", false)
+                
                 StartDieScreen()
+                timerDeadStarted = true
             else
                 Config.Hud.CanHudShow = true  
             end
