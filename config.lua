@@ -4,6 +4,12 @@ Config.Hud = {
     isShow = false
 }
 
+Config.Character = {
+    MetabolismUpdateTimer = 120,
+    HungerDelta = 2,
+    ThirstDelta = 3,
+}
+
 Config.SpeedCam = {
     speedLimit = 80, --km/h
     inPlateflaged = false,

@@ -4,11 +4,18 @@ local NeedHideHud = false
 local isCallDoctor = true
 local timerDeadStarted = false
 
+
 local deadAnimDict = 'dead'
 local deadAnim = 'dead_a'
 
 local inBedDict = 'anim@gangops@morgue@table@'
 local inBedAnim = 'body_search'
+
+--[[local needMetabolism = false
+local MetabolismUpdateTimer = Config.Character.MetabolismUpdateTimer
+local HungerDelta = Config.Character.HungerDelta
+local ThirstDelta = Config.Character.ThirstDelta]]
+
 
 local function loadAnimDict(dict)
     while (not HasAnimDictLoaded(dict)) do
@@ -34,6 +41,10 @@ local function DrawText2(text)
 	AddTextComponentSubstringPlayerName(text)
     EndTextCommandDisplayText(0.45, 0.90)
 end
+
+--[[exports("StartMetabolism", function (need)
+    needMetabolism = need
+end)]]
 
 exports("ShowHud", function (visible)
     print("exports ShowHud visible", visible)
@@ -260,6 +271,19 @@ exports("SetServerId", function (serverId)
     })
 end)
 
+
+--metabolism Hud
+exports("SetHunger", function (hunger)
+    SendNUIMessage({
+        request = "hud.sethunger", value = hunger
+    })
+end)
+exports("SetThirst", function (thirst)
+    SendNUIMessage({
+        request = "hud.setthirst", value = thirst
+    })
+end)
+
 RegisterNetEvent('SetClock', function(day, month,  year,  hours,  minutes,  seconds)
     SendNUIMessage({
         request = "hud.setclock",
@@ -378,4 +402,13 @@ Citizen.CreateThread(function()
         Citizen.Wait(0)
     end
 end)
+
+--[[Citizen.CreateThread(function()
+    while true do
+        if (needMetabolism) then
+            
+        end
+        Citizen.Wait(MetabolismUpdateTimer)
+    end
+end)]]
 

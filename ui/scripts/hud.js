@@ -1,17 +1,17 @@
 const Hud = {
     data() {
         return {
-            hudShow:true,
-            carHud:true,
-            serverId:0,
-            cash:-1,
-            DeathShow:false,
+            hudShow: true,
+            carHud: true,
+            serverId: 0,
+            cash: -1,
+            DeathShow: false,
             DeathShowData: {
-              isCallDoctor:true,
-              keyCall_Doctor:"G",
-              keyRespawn:"E",
-              priceRespawn: 350,
-              timerDeath:50
+                isCallDoctor: true,
+                keyCall_Doctor: "G",
+                keyRespawn: "E",
+                priceRespawn: 350,
+                timerDeath: 50
             }
         }
     },
@@ -28,7 +28,7 @@ const Hud = {
             //console.log("health", health, " oil", oil)
             console.log("data", JSON.stringify(data))
             $(".speed").text(String(speed).padStart(3, "0"));
-            $(".mileage").text(String(mileage).padStart(10, "0")+" km");
+            $(".mileage").text(String(mileage).padStart(10, "0") + " km");
             $(".gear-unit").text(gear);
             $(".rpm-bar").css("width", rpm + "%");
             if (rpm <= 60) {
@@ -38,7 +38,7 @@ const Hud = {
             } else {
                 $(".rpm-bar").css("background-color", "red");
             }
-            $(".fuel-bar-progress").css("height", Math.ceil(100-fuel*100/65) + "%");   //  65 - 100%; fuel - x%
+            $(".fuel-bar-progress").css("height", Math.ceil(100 - fuel * 100 / 65) + "%");   //  65 - 100%; fuel - x%
 
             if (fuel <= 40 && fuel >= 20) {
                 $(".fuel").attr("src", "assets/img/hud/fuel40.png");
@@ -79,10 +79,10 @@ const Hud = {
                 $(".location .location-text").text(data.street);
                 $(".location .location-text2").text(data.street2);
                 $(".location").fadeIn()
-                
+
             } else {
                 $(".location ").fadeOut()
-                
+
             }
 
             if (data.inCar) {
@@ -116,38 +116,22 @@ const Hud = {
                 }
             }
         },
-        StatusUpdate(data){
-            let health = data.health-100;
+        StatusUpdate(data) {
+            let health = data.health - 100;
             let armor = data.armor;
             let stamina = data.stamina;
             let oxygen = data.oxygen;
             let inWater = data.inwater;
-            let thirst = data.thirst
-            let hunger = data.hunger
+            //let thirst = data.thirst
+            //let hunger = data.hunger
 
             let stress = 65
             let alcohol = 99
             let drug = 43
             let smoking = 87
-            $(".thirst").css(
-                "background-image",
-                `conic-gradient(#fff ` + thirst + `%, transparent ` + (thirst - 100) + `%, transparent)`
-            );
-            $(".hunger").css(
-                "background-image",
-                `conic-gradient(#fff ` + hunger + `%, transparent ` + (hunger - 100) + `%, transparent)`
-            );
-            if (thirst == 100) {
-                $(".thirst-wrapper").fadeOut();
-            } else {
-                $(".thirst-wrapper").fadeIn();
-            }
-            if (hunger == 100) {
-                $(".hunger-wrapper").fadeOut();
-            } else {
-                $(".hunger-wrapper").fadeIn();
-            }
-          
+           
+         
+
             $(".stats .bottom").hide()
             $(".location .location-text").text(data.street);
             $(".location .location-text2").text(data.street2);
@@ -158,7 +142,7 @@ const Hud = {
             }
             if (inWater) {
                 $(".oxygen-wrapper").fadeIn();
-            } else{
+            } else {
                 $(".oxygen-wrapper").fadeOut();
             }
             $(".health").css(
@@ -166,7 +150,7 @@ const Hud = {
                 `conic-gradient(#fff ` + health + `%, transparent ` + (health - 100) + `%, transparent)`
             );
             //console.log("health", health)
-            if (health >= 100) {$(".health-wrapper").fadeOut()} else { $(".health-wrapper").fadeIn();}
+            if (health >= 100) { $(".health-wrapper").fadeOut() } else { $(".health-wrapper").fadeIn(); }
             $(".armour").css(
                 "background-image",
                 `conic-gradient(#fff ` + armor + `%, transparent ` + (armor - 100) + `%, transparent)`
@@ -222,8 +206,32 @@ const Hud = {
                 "background-image",
                 `conic-gradient(#fff ` + smoking + `%, transparent ` + (smoking - 100) + `%, transparent)`
             );
+          
         },
-        onShow(bool){
+        Hunger(hunger){
+            $(".hunger").css(
+                "background-image",
+                `conic-gradient(#fff ` + hunger + `%, transparent ` + (hunger - 100) + `%, transparent)`
+            );
+            if (hunger == 100) {
+                $(".hunger-wrapper").fadeOut();
+            } else {
+                $(".hunger-wrapper").fadeIn();
+            }
+        },
+        Thirst(thirst){
+            $(".thirst").css(
+                "background-image",
+                `conic-gradient(#fff ` + thirst + `%, transparent ` + (thirst - 100) + `%, transparent)`
+            );
+            if (thirst == 100) {
+                $(".thirst-wrapper").fadeOut();
+            } else {
+                $(".thirst-wrapper").fadeIn();
+            }
+          
+        },
+        onShow(bool) {
             //console.log("onShow", bool)
             this.hudShow = bool;
         },
@@ -244,29 +252,29 @@ const Hud = {
                 //console.log("event hud.other", JSON.stringify(event.data))
                 this.UpdateOtherData(event.data)
                 this.carHud = event.data.inCar
-              
+
                 //this.onShow(event.data.canHudShow)
-            } else if (event.data.request == "carhud.hide"){
+            } else if (event.data.request == "carhud.hide") {
                 this.carHud = false
                 $(".location").fadeOut()
-                
-            } else if (event.data.request == "hud.setclock"){
+
+            } else if (event.data.request == "hud.setclock") {
                 //console.log("clock", JSON.stringify(event.data));
-                let clock = String(event.data.hours).padStart(2, "0") +":"+ String(event.data.minutes).padStart(2, "0")+":"+ String(event.data.seconds).padStart(2, "0")
-                let date = String(event.data.day).padStart(2, "0") + "."+ String(event.data.month).padStart(2, "0") + "."+ event.data.year
+                let clock = String(event.data.hours).padStart(2, "0") + ":" + String(event.data.minutes).padStart(2, "0") + ":" + String(event.data.seconds).padStart(2, "0")
+                let date = String(event.data.day).padStart(2, "0") + "." + String(event.data.month).padStart(2, "0") + "." + event.data.year
                 $(".date span").text(date);
                 $(".clock span").text(String(clock).padStart(3, "0"));
                 //this.onShow(event.data.canHudShow)
                 //console.log("clock " , clock, "date ", date);
-            } else if (event.data.request == "hud.setweather"){
-                $(".weather span").text("Текущая погода: "+event.data.weather);
+            } else if (event.data.request == "hud.setweather") {
+                $(".weather span").text("Текущая погода: " + event.data.weather);
                 //this.onShow(event.data.canHudShow)
             } else if (event.data.request == "hud.statusupdate") {
                 //console.log("event", JSON.stringify(event.data))
                 this.StatusUpdate(event.data)
                 //this.onShow(event.data.canHudShow)
-                
-                
+
+
             } else if (event.data.request == "hud.setserverid") {
                 this.serverId = event.data.value
             } else if (event.data.request == "hud.setcash") {
@@ -278,11 +286,17 @@ const Hud = {
                 //console.log('304 hud.death.show', JSON.stringify(event.data))
                 this.DeathShow = true
                 this.DeathShowData = event.data.huditems
-              } else if (event.data.request === 'hud.death.hide') {
+            } else if (event.data.request === 'hud.death.hide') {
                 this.DeathShow = false
-                console.log('304 hud.death.hide')
-              
+               
+            } else if (event.data.request === 'hud.sethunger') {
+                console.log('304 hud.sethunger', event.data.value)
+                this.Hunger(event.data.value)
+            } else if (event.data.request === 'hud.setthirst') {
+                this.Thirst(event.data.value)
+                console.log('304 hud.Thirst', event.data.value)
             }
+            
         });
         this.listenerKey = window.addEventListener("keydown", (event) => {
 
